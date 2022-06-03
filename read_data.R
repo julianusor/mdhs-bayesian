@@ -1,9 +1,10 @@
-install_github("kendavidn/mortDHS")
-
 library(devtools)
 library(haven)
+devtools::install_github("kendavidn/mortDHS")
 library(mortDHS)
 library(tidyverse)
+
+
 
 # Leer datos
 #malawi bien 2015-16
