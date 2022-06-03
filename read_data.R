@@ -1,10 +1,15 @@
 library(devtools)
+<<<<<<< HEAD
 install_github("kendavidn/mortDHS")
 
+=======
+>>>>>>> 2a6528a0ac42bd806728e3d31e5fd02d91cb7a78
 library(haven)
+devtools::install_github("kendavidn/mortDHS")
 library(mortDHS)
 library(tidyverse)
 
+<<<<<<< HEAD
 library('survival')
 library("survminer")
 library("GGally")
@@ -16,6 +21,10 @@ library("GGally")
 # Individual Women's Data - Individual Recode (IR)
 # This dataset has one record for every eligible woman as defined by the household schedule.
 
+=======
+
+
+>>>>>>> 2a6528a0ac42bd806728e3d31e5fd02d91cb7a78
 # Leer datos
 data <- read_dta("data/rwanda-2020.dta", n_max = 1000)
 
