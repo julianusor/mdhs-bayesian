@@ -18,7 +18,7 @@ library("GGally")
 
 
 # Leer datos
-data <- read_dta("data/rwanda-2020.dta", n_max = 1000)
+data <- read_dta("data/descomprimir/rwanda-2020.dta", n_max = 1000)
 
 
 # Obtener el formato hermano-por-fila para las columnas mm1, mm2, mm4, etc
