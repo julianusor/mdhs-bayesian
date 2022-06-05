@@ -111,6 +111,8 @@ mod.siblings <-
 
 cox_fit <- survfit(mod.siblings)
 
+
+
 ggsurvplot(
   survfit(
     mod.siblings,
@@ -120,3 +122,18 @@ ggsurvplot(
   )
 )
 
+
+
+####### puebitas ########
+
+
+plot(survfit(mod.siblings, newdata=data.frame(sex=1)),
+     xlab = "meses", ylab="Survival",col=1,conf.int=F) 
+lines(survfit(mod.siblings, newdata=data.frame(sex=2)),
+      xlab = "meses", ylab="Survival",col=2, conf.int=F)
+
+
+temp <- cox.zph(mod.siblings,transform="km")
+print(temp)
+win.graph()
+plot(temp)
