@@ -112,7 +112,7 @@ ggsurvplot(
 
 
 
-####### puebitas ########
+####### pruebitas ########
 
 
 plot(survfit(mod.siblings, newdata=data.frame(sex=1)),
@@ -174,3 +174,10 @@ log(0.7243237)
 
 ## SE OBTIENEN VALORES PARECIDOS -1.13 Y -1.28  para x1 ##
 
+
+# --------------------------------------------------------
+## hazard promedio
+## tiempo promedio
+## boxplot por género
+## edades
+## causas de muerte
