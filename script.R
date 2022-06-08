@@ -176,13 +176,24 @@ log(0.7243237)
 
 
 # --------------------------------------------------------
+## tiempo promedio
+
+### Hombre - sex = 1
+tiempo_medio_h <- data_siblings %>% filter(sex == 1)
+mean(tiempo_medio_h$death_time,na.rm = T)
+### Mujer - sex = 2
+
+tiempo_medio_m <- data_siblings %>% filter(sex == 2)
+mean(tiempo_medio_m$death_time,na.rm = T)
+
 ## hazard promedio
 
 ### Hombre - sex = 1
 
+
 ### Mujer - sex = 2
 
-## tiempo promedio
+
 ## boxplot por género
 ## edades
 ## causas de muerte
