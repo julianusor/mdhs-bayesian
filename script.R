@@ -177,6 +177,11 @@ log(0.7243237)
 
 # --------------------------------------------------------
 ## hazard promedio
+
+### Hombre - sex = 1
+
+### Mujer - sex = 2
+
 ## tiempo promedio
 ## boxplot por género
 ## edades
