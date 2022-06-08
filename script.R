@@ -18,7 +18,7 @@ library("GGally")
 
 
 # Leer datos
-data <- read_dta("data/descomprimir/rwanda-2020.dta", n_max = 1000)
+data <- read_dta("data/rwanda-2020.dta", n_max = 1000)
 
 
 # Obtener el formato hermano-por-fila para las columnas mm1, mm2, mm4, etc
@@ -34,7 +34,7 @@ data_siblings <- data_siblings %>% left_join(data[, columns_to_add])
 # Separar case id en tres columnas
 data_siblings$caseid <-
   gsub("( )+(?!\\d)", "", data_siblings$caseid, perl = T)
-data_siblings$caseid <- str_sub(data_siblings$caseid, 2, -1)
+data_siblings$caseid <- str_sub(data_siblings$caseid, 2,-1)
 data_siblings <-
   separate(
     data = data_siblings,
@@ -88,18 +88,6 @@ data_siblings$survival_status <-
   as.integer(!data_siblings$survival_status)
 
 
-
-# born from 1960 to 1980
-year <- 1960
-n <- 20
-l <- (year - 1900) * 12 + 0
-u <- (year - 1900) * 12 + 12 * n
-
-
-#condition <-
-#  (data_siblings$birth_cmc < u) &  (data_siblings$birth_cmc > l)
-# data_siblings <- data_siblings[condition,]
-
 # ------------------------------
 # Cox Proportions Hazard Model 
 # ------------------------------
@@ -143,10 +131,10 @@ plot(temp)
 ######### COXPH VS ICBAYES - EJEMPLO #######
 
 library(coda)
-library(HI)
+library(HI) # install.packages("HI")
 library(magrittr)
 library(survival)
-require(ICBayes)
+require(ICBayes) # install.packages("ICBayes")
 require(tidyverse)
 
 data("bcdata")
