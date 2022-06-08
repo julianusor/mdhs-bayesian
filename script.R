@@ -137,3 +137,52 @@ temp <- cox.zph(mod.siblings,transform="km")
 print(temp)
 win.graph()
 plot(temp)
+
+
+
+######### COXPH VS ICBAYES - EJEMPLO #######
+
+library(coda)
+library(HI)
+library(magrittr)
+library(survival)
+require(ICBayes)
+require(tidyverse)
+
+data("bcdata")
+base<-as.data.frame(bcdata)
+head(bcdata)
+
+## EJEMPLO CANCER DE SENO ## 
+
+try1 <- ICBayes(formula=Surv(L, R, type="interval2") ~ x1,
+                data=base, model="case2ph", status=base$status,
+                order=4, coef_range=2, x_user=c(0,1), niter=11000,
+                burnin=1000, knots=seq(0.1, 60.1, length=10),
+                grids=seq(0.1, 60.1, by=1), seed=12242016)
+summary(try1)
+
+
+## COMO COX SOLO TOMA CENSURA A DERECHA SE USAN SOLO LOS DATOS CENSURADOS A DERECHA
+## DE LA BASE DE CANCER DE SENO PARA COMPARAR LA ESTIMACION CON COX 
+
+
+base2 <- base %>% filter( is.na(R))
+
+
+try2 <- ICBayes(formula=Surv(L, R, type="interval2") ~ x1,
+                data=base2, model="case2ph", status=base2$status,
+                order=4, coef_range=2, x_user=c(0,1), niter=11000,
+                burnin=1000, knots=seq(0.1, 60.1, length=10),
+                grids=seq(0.1, 60.1, by=1), seed=12242016)
+summary(try2)
+
+
+fit <- coxph(Surv(L, status) ~ x1, data = base) 
+fit
+
+
+log(0.7243237)
+
+## SE OBTIENEN VALORES PARECIDOS -1.13 Y -1.28  para x1 ##
+
