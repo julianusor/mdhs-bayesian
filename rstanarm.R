@@ -1,7 +1,7 @@
 library(usethis)
 library(devtools)      
 library(tidyverse)
-devtools::install_github("stan-dev/rstanarm", ref = "feature/survival", build_vignettes = FALSE)
+#devtools::install_github("stan-dev/rstanarm", ref = "feature/survival", build_vignettes = FALSE)
 library(Rcpp)
 library(rstanarm)
 library(tidybayes)
@@ -32,9 +32,51 @@ data_siblings[data_siblings$survival_status == 1,]$death_time <-
   data_siblings[data_siblings$survival_status == 1,]$birth_cmc
 
 
+data_siblings$edad= round(data_siblings$death_time/12,0) 
+data_siblings %>% summary
+base= data_siblings %>% select(edad, sex, death_time, survival_status) 
+base %>% summary 
 
-mod1 <- stan_surv(formula = Surv(death_time, survival_status) ~ sex,
-                  data = data_siblings, basehaz="ms")
+data_siblings$edad= round(data_siblings$death_time/12,0) 
+
+base=na.omit(base)
+
+base$factor_Edad= cut(base$edad, breaks = c(-0.01, 14, 24, 64, Inf),
+    labels = c("Niño", "Joven", "Adulto", "Mayor"))
+
+base %>% summary
+
+
+mod1 <- stan_surv(formula = Surv(death_time, survival_status) ~ sex + factor_Edad,
+                  data = base, basehaz="ms")
 
 summary(mod1)
 prior_summary(mod1)
+
+
+
+mod2 <- stan_surv(formula = Surv(death_time, survival_status) ~ as.factor(sex) + factor_Edad,
+                  data = base, basehaz="exp")
+
+summary(mod2)
+
+
+mod3 <- stan_surv(formula = Surv(death_time, survival_status) ~ as.factor(sex) + factor_Edad,
+                  data = base, basehaz="weibull")
+
+summary(mod3)
+
+
+plotfun <- function(model, title) {
+    plot(model, plotfun = "basehaz") +
+    coord_cartesian(ylim = c(0,0.4)) +
+    labs(title = title) +
+    theme(plot.title = element_text(hjust = 0.5))
+  }
+
+p_exp <- plotfun(mod1, "ms")
+p_exp
+
+
+bayesplot::color_scheme_set("pink")
+(trace <- plot(mod1, "trace"))
