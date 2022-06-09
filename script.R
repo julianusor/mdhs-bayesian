@@ -19,6 +19,7 @@ library("GGally")
 
 # Leer datos
 data <- read_dta("data/rwanda-2020.dta", n_max = 1000)
+data <- read_dta("data/descomprimir/rwanda-2020.dta", n_max = 1000)
 
 
 # Obtener el formato hermano-por-fila para las columnas mm1, mm2, mm4, etc
@@ -181,18 +182,20 @@ log(0.7243237)
 ### Hombre - sex = 1
 tiempo_medio_h <- data_siblings %>% filter(sex == 1)
 mean(tiempo_medio_h$death_time,na.rm = T)
-### Mujer - sex = 2
 
+### Mujer - sex = 2
 tiempo_medio_m <- data_siblings %>% filter(sex == 2)
 mean(tiempo_medio_m$death_time,na.rm = T)
 
 ## hazard promedio
 
 ### Hombre - sex = 1
-
+hazard_prom_h <- data_siblings %>% filter(survival_status == 0 & sex == 1)
+1997/(2514*mean(tiempo_medio_h$death_time,na.rm = T))
 
 ### Mujer - sex = 2
-
+hazard_prom_m <- data_siblings %>% filter(survival_status == 0 & sex == 2)
+2044/(2454*mean(tiempo_medio_m$death_time,na.rm = T))
 
 ## boxplot por género
 ## edades
