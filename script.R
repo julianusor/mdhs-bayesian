@@ -198,5 +198,23 @@ hazard_prom_m <- data_siblings %>% filter(survival_status == 0 & sex == 2)
 2044/(2454*mean(tiempo_medio_m$death_time,na.rm = T))
 
 ## boxplot por género
+data_siblings$sex <- as.factor(data_siblings$sex)
+
+ggplot(data_siblings, aes(x=sex, y=death_time, fill=sex)) +
+  geom_boxplot(alpha=0.7) +
+  stat_summary(fun=mean, geom="point", shape=20, size=14, color="red", fill="red") +
+  theme(legend.position="right") +
+  scale_fill_brewer(palette="Set1") +
+  scale_fill_discrete(labels=c("hombre","mujer"))
+
+
 ## edades
+par(mfrow=c(1,2))
+hist(tiempo_medio_h$death_time,xlab = "tiempo para hombres",main="",ylab="Frecuencia",ylim=c(0,300),las=2,col="red")
+hist(tiempo_medio_m$death_time,xlab = "tiempo para mujeres",main="",ylab="Frecuencia",ylim=c(0,300),las=2,col="blue")
+
 ## causas de muerte
+tiempo_medio_h$mm16 = as.factor(tiempo_medio_h$mm16)
+tiempo_medio_m$mm16 = as.factor(tiempo_medio_m$mm16)
+tiempo_medio_h$mm16 %>% table() %>% barplot(las = 1,xlab="Causas de muerte\n para hombres",ylab="Frecuencia")
+tiempo_medio_m$mm16 %>% table() %>% barplot(las = 1,xlab="Causas de muerte\n para mujeres",ylab="Frecuencia")
