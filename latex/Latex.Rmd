@@ -1,0 +1,37 @@
+---
+title: "Latex"
+author: "Julián - -"
+date: '2022-06-09'
+output: html_document
+---
+
+$\lambda(t \ | \ X_i) = \lambda_0(t) \ exp(X_i \cdot \beta)$
+
+```{=tex}
+\text{Esta se denota como función de riesgos para la persona }i \text{ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
+```
+$$
+\text{Esta se denota como función de riesgos para la persona }i \text{ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
+$$
+
+
+
+$$
+\beta_0 \sim N(0, 20)
+$$
+
+$$
+\beta \sim N_n(0,\tau_p)
+$$
+
+$$
+γ \sim Dir()
+$$
+
+$$
+\lambda_0(t)
+$$
+
+
+
+
