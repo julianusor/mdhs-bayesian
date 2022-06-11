@@ -1,21 +1,33 @@
 # Leer datos
 source("functions/read_dhs.R")
-data_siblings <- read_dhs("data/descomprimir/rwanda-2020.dta", 700)
+library(mortDHS)
+library(haven)
+library(tidyverse)
+library(rstanarm)
+
+data_siblings <- read_dhs("data/descomprimir/rwanda-2020.dta", 400)
+
+# Los datos vienen en el formato 
+# 0 = hermano muerto
+# 1 = hermano vivo
 
 # death_time y quitar death_cmc
 # Tiempo de muerte para los que murieron
 data_siblings <- data_siblings %>%
-  mutate(death_time = death_cmc - birth_cmc) %>%
-  select(-(death_cmc))
+  mutate(death_time = death_cmc - birth_cmc) #%>%
+  #select(-(death_cmc))
 
 # agregar death_time pero para censura
 # Tiempo de censura = fecha de entrevista - fecha de nacimiento
 # Si survival_status == 1 significa no muerto (indicador de censura)
-data_siblings[data_siblings$survival_status == 1, ]$death_time <-
-  data_siblings %>%
-  filter(survival_status == 1) %>%
-  mutate(death_time = interview_cmc - birth_cmc) %>%
-  select(death_time)
+data_siblings[data_siblings$survival_status == 1,]$death_time <-
+  data_siblings[data_siblings$survival_status == 1,]$interview_cmc -
+  data_siblings[data_siblings$survival_status == 1,]$birth_cmc
+
+# ver 0
+
+data_siblings <- data_siblings %>%
+  mutate(death_time = if_else(death_time == 0, 0.1, death_time))
 
 
 # 1 = child (0-14 yrs)
@@ -32,40 +44,65 @@ data_siblings$age_group <- data_siblings$age_group %>% as.factor()
 
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 
-bayesplot::mcmc_areas_ridges(mod1, regex_pars = "*", prob = 0.90)
+# cambiar survival_status de 0 = muerto a 1 = muerto 
+data_siblings$survival_status <-
+  as.integer(!data_siblings$survival_status)
 
-mod1 <- stan_surv(formula = Surv(death_time, survival_status) ~ sex,
-                  data = data_siblings, basehaz="ms")
+# =========== modelo
 
-mod1 <-
-  stan_surv(
-    formula = Surv(death_time, survival_status) ~ sex + age_group,
-    data = data_siblings,
-    basehaz = "exp"
-  )
+mod1 <- stan_surv(formula = Surv(death_time, survival_status) ~ -1 + sex + age_group,
+                  data = data_siblings, basehaz="ms") #, basehaz_ops = list(degree = 3, knots = seq(0.1,700, length.out = 10)))
 
+mod2 <- stan_surv(formula = Surv(death_time, survival_status) ~ -1 + sex + age_group,
+                  data = data_siblings, basehaz="exp")
+
+mod3 <- stan_surv(formula = Surv(death_time, survival_status) ~ -1 + sex + age_group,
+                  data = data_siblings, basehaz="weibull")
+
+# basehaz_ops = list(degree = 2, knots = c(10,20))
 bayesplot::color_scheme_set("red")
+
+# area para coeficientes de splines
+bayesplot::mcmc_areas(mod1, regex_pars = "m-spl*", prob = 0.95)
+
+# area para coeficientes de splines
+bayesplot::mcmc_areas(mod1, regex_pars = "age*|*Intercept*", prob = 0.95)
+
+# area para coeficientes de splines
+bayesplot::mcmc_areas(mod1, regex_pars = "sex*", prob = 0.95)
+
 
 # rhat
 plot(mod1, "rhat")
 
 #_________
 
-x <- as.array(mod1, regex_pars = "factor*")
-bayesplot::mcmc_areas(x, prob = 0.5, prob_outer = 0.9)
+# Autocorrelation para todos menos m-spline
+plot(mod1, "acf", pars = "(Intercept)", regex_pars = "age*|sex*")
 
-x <- as.array(mod1, regex_pars = "sex*|(*Intercept*)")
-bayesplot::mcmc_areas(x, prob = 0.9, prob_outer = 0.95)
+# Traceplot para los 4
+plot(mod1, "trace")
 
-plot(mod1, "acf", pars = "sex2", regex_pars = "age*")
+##
+ps_check(mod1)
 
-
-plot(mod1, "trace", pars = c("(Intercept)", "sex2", "age_group2", "age_group3"),
-     facet_args = list(nrow = 2))
 
 # Para la presentación
 # a prioris y modelo bien definidos
 # mostrar la base de datos y su formato
 # tablas en latex 
 # explicar la supervivencia
+
+
+### coxph
+library("survival")
+library("survminer")
+
+# para la funcion Surv 
+# survival status = 0 vivo
+# survival status = 1 muerto
+res.cox <-
+  coxph(Surv(death_time, survival_status) ~ -1 + sex + age_group, data =  data_siblings)
+
+summary(res.cox)
 
