@@ -13,7 +13,7 @@ library(survival)
 source("functions/read_dhs.R")
 
 data_siblings <- read_dhs("data/rwanda-2020.dta", 700)
-
+data_siblings <- read_dhs("data/descomprimir/rwanda-2020.dta", 700)
 # Tiempo de muerte para los que murieron
 data_siblings <- data_siblings %>%
   mutate(death_time = death_cmc - birth_cmc) %>%
@@ -80,3 +80,12 @@ p_exp
 
 bayesplot::color_scheme_set("pink")
 (trace <- plot(mod1, "trace"))
+
+
+# Boxplot por grupo de edad
+ggplot(base, aes(x=factor_Edad, y=death_time, fill=factor_Edad)) +
+  geom_boxplot(alpha=0.7) +
+  stat_summary(fun=mean, geom="point", shape=20, size=4, color="red", fill="red") +
+  theme(legend.position="right") +
+  scale_fill_brewer(palette="Set1") +
+  scale_fill_discrete(labels=c("Niño","Joven","Adulto","Mayor"))
