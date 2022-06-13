@@ -4,8 +4,9 @@ library(mortDHS)
 library(haven)
 library(tidyverse)
 library(rstanarm)
+#data/descomprimir/rwanda-2020.dta
 
-data_siblings <- read_dhs("data/descomprimir/rwanda-2020.dta", 400)
+data_siblings <- read_dhs("C:/Users/Usuario/Documents/GitHub/FinalProjectBayesian/data/rwanda-2020.dta", 400)
 
 # Los datos vienen en el formato 
 # 0 = hermano muerto
@@ -86,7 +87,13 @@ plot(mod1, "trace")
 ##
 ps_check(mod1)
 
-
+##Comparación de modelos 
+loo(mod1)
+loo(mod2)
+loo(mod3)
+waic(mod1)
+waic(mod2)
+waic(mod3)
 # Para la presentación
 # a prioris y modelo bien definidos
 # mostrar la base de datos y su formato
