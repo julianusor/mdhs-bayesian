@@ -5,33 +5,73 @@ date: '2022-06-09'
 output: html_document
 ---
 
-$\lambda(t \ | \ X_i) = \lambda_0(t) \ exp(X_i \cdot \beta)$
+$\lambda(t \ | \ X_i) = \lambda_0(t) \ exp(\beta_0 + X_i \cdot \beta)$
 
-```{=tex}
-\text{Esta se denota como función de riesgos para la persona }i \text{ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
-```
+\text{Esta se denota como función de riesgos para la persona }i \text{ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot \cdot , n
+
 $$
 \text{Esta se denota como función de riesgos para la persona }i \text{ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
 $$
-
-
 
 $$
 \beta_0 \sim N(0, 20)
 $$
 
 $$
-\beta \sim N_n(0,\tau_p)
+\beta_{i} \sim N(0,2.5) \ \ \ \text{con i = 1}
 $$
 
 $$
-γ \sim Dir()
+γ_l \sim Dir(1) \ \ \ \text{con }l = 1, 2, 3, ... ,L 
+$$
+
+```{=tex}
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{survival_status} & \textbf{sex} & \textbf{birth_cmc} & \textbf{death_time} \\ \hline
+0                        & 1            & 1008               & 438                 \\ \hline
+1                        & 2            & 1075               & 53                  \\ \hline
+1                        & 2            & 907                & 245                 \\ \hline
+0                        & 2            & 960                & 486                 \\ \hline
+0                        & 2            & 984                & 462                 \\ \hline
+1                        & 1            & 1003               & 125                 \\ \hline
+0                        & 2            & 1032               & 414                 \\ \hline
+0                        & 1            & 936                & 510                 \\ \hline
+0                        & 1            & 960                & 486                 \\ \hline
+0                        & 1            & 1020               & 426                 \\ \hline
+0                        & 1            & 1092               & 354                 \\ \hline
+\end{tabular}
+\end{table}
+```
+$$
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{survival_status} & \textbf{sex} & \textbf{birth_cmc} & \textbf{death_time} \\ \hline
+0                        & 1            & 1008               & 438                 \\ \hline
+1                        & 2            & 1075               & 53                  \\ \hline
+1                        & 2            & 907                & 245                 \\ \hline
+0                        & 2            & 960                & 486                 \\ \hline
+0                        & 2            & 984                & 462                 \\ \hline
+1                        & 1            & 1003               & 125                 \\ \hline
+0                        & 2            & 1032               & 414                 \\ \hline
+0                        & 1            & 936                & 510                 \\ \hline
+0                        & 1            & 960                & 486                 \\ \hline
+0                        & 1            & 1020               & 426                 \\ \hline
+0                        & 1            & 1092               & 354                 \\ \hline
+\end{tabular}
+\end{table}
 $$
 
 $$
-\lambda_0(t)
+\lambda_i(t \ | \ X_i, k, \delta) = \sum_{l = 1}^{L}\gamma_l \mathrm{M}_l(t \ | \ k, \delta)\ast \mathrm{exp}(\beta \cdot X_i)
 $$
 
+$$
+\beta = (\beta_0 + \beta_1 + ... + \beta_n) 
+$$
 
-
-
+$$
+X_i = (1 + x_1 + ... + x_n) 
+$$

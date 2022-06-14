@@ -371,7 +371,8 @@ pre code {
 
 
 <p><span class="math inline">\(\lambda(t \ | \ X_i) = \lambda_0(t) \
-exp(X_i \cdot \beta)\)</span></p>
+exp(\beta_0 + X_i \cdot \beta)\)</span></p>
+<p>i t  , n</p>
 <p><span class="math display">\[
 \text{Esta se denota como función de riesgos para la persona }i \text{
 en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
@@ -380,13 +381,51 @@ en el tiempo } t \text{ con i = 1, 2,} \cdot\cdot\ \cdot , n
 \beta_0 \sim N(0, 20)
 \]</span></p>
 <p><span class="math display">\[
-\beta \sim N_n(0,\tau_p)
+\beta_{i} \sim N(0,2.5) \ \ \ \text{con i = 1}
 \]</span></p>
 <p><span class="math display">\[
-γ \sim Dir()
+γ_l \sim Dir(1) \ \ \ \text{con }l = 1, 2, 3, ... ,L
 \]</span></p>
 <p><span class="math display">\[
-\lambda_0(t)
+\begin{table}[]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{survival_status} &amp; \textbf{sex} &amp; \textbf{birth_cmc}
+&amp; \textbf{death_time} \\ \hline
+0                        &amp; 1            &amp;
+1008               &amp; 438                 \\ \hline
+1                        &amp; 2            &amp;
+1075               &amp; 53                  \\ \hline
+1                        &amp; 2            &amp;
+907                &amp; 245                 \\ \hline
+0                        &amp; 2            &amp;
+960                &amp; 486                 \\ \hline
+0                        &amp; 2            &amp;
+984                &amp; 462                 \\ \hline
+1                        &amp; 1            &amp;
+1003               &amp; 125                 \\ \hline
+0                        &amp; 2            &amp;
+1032               &amp; 414                 \\ \hline
+0                        &amp; 1            &amp;
+936                &amp; 510                 \\ \hline
+0                        &amp; 1            &amp;
+960                &amp; 486                 \\ \hline
+0                        &amp; 1            &amp;
+1020               &amp; 426                 \\ \hline
+0                        &amp; 1            &amp;
+1092               &amp; 354                 \\ \hline
+\end{tabular}
+\end{table}
+\]</span></p>
+<p><span class="math display">\[
+\lambda_i(t \ | \ X_i, k, \delta) = \sum_{l = 1}^{L}\gamma_l
+\mathrm{M}_l(t \ | \ k, \delta)\ast \mathrm{exp}(\beta \cdot X_i)
+\]</span></p>
+<p><span class="math display">\[
+\beta = (\beta_0 + \beta_1 + ... + \beta_n)
+\]</span></p>
+<p><span class="math display">\[
+X_i = (1 + x_1 + ... + x_n)
 \]</span></p>
 
 
