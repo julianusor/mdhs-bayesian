@@ -94,6 +94,39 @@ loo(mod3)
 waic(mod1)
 waic(mod2)
 waic(mod3)
+
+
+compare_models(loo(mod1),
+               loo(mod2),
+               loo(mod3))
+
+
+
+
+p1=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="1")))
+p2=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="2")))
+p3=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="3")))
+p4=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="4")))
+p5=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="1")))
+p6=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="2")))
+p7=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="3")))
+p8=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="4")))
+
+library(cowplot)
+p_combined2 <- plot_grid(p1,
+                        p2,
+                        p3,
+                        p4,
+                        p5,
+                        p6,
+                        p7,
+                        p8,
+                        ncol = 3)
+p_combined2
+
+
+
+
 # Para la presentación
 # a prioris y modelo bien definidos
 # mostrar la base de datos y su formato
@@ -109,7 +142,10 @@ library("survminer")
 # survival status = 0 vivo
 # survival status = 1 muerto
 res.cox <-
-  coxph(Surv(death_time, survival_status) ~ -1 + sex + age_group, data =  data_siblings)
+  coxph(Surv(death_time, survival_status) ~ -1 + as.factor(sex) + as.factor(age_group), data =  data_siblings)
 
 summary(res.cox)
+
+
+
 
