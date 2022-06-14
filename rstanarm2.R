@@ -4,11 +4,13 @@ library(mortDHS)
 library(haven)
 library(tidyverse)
 library(rstanarm)
+#data/descomprimir/rwanda-2020.dta
 
 data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta", n_max = 100)
 
 # 71901 rows
 #data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta")
+
 
 # Los datos vienen en el formato 
 # 0 = hermano muerto
@@ -107,6 +109,45 @@ plot(mod1, "trace")
 ##
 ps_check(mod1)
 
+##Comparación de modelos 
+loo(mod1)
+loo(mod2)
+loo(mod3)
+waic(mod1)
+waic(mod2)
+waic(mod3)
+
+
+compare_models(loo(mod1),
+               loo(mod2),
+               loo(mod3))
+
+
+
+
+p1=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="1")))
+p2=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="2")))
+p3=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="3")))
+p4=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="4")))
+p5=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="1")))
+p6=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="2")))
+p7=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="3")))
+p8=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="4")))
+
+library(cowplot)
+p_combined2 <- plot_grid(p1,
+                        p2,
+                        p3,
+                        p4,
+                        p5,
+                        p6,
+                        p7,
+                        p8,
+                        ncol = 3)
+p_combined2
+
+
+
 
 ps2 <- posterior_survfit(mod1, type="surv", standardise = FALSE, times = 0,
                          control = list(epoints = 20))
@@ -126,8 +167,11 @@ library("survminer")
 # para la funcion Surv 
 # survival status = 0 vivo
 # survival status = 1 muerto
-res.cox <-
-  coxph(Surv(death_time, survival_status) ~ sex , data =  data_siblings)
+res.cox <- coxph(Surv(death_time, survival_status) ~ sex , data =  data_siblings)
+
 
 summary(res.cox)
+
+
+
 
