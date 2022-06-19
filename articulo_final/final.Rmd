@@ -11,6 +11,9 @@ classoption:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 library(tidyverse)
 ```
+
+ 
+
 # Introduction
 The primary aim of our study is examine the mortality and survival of the people from African countries.
 
@@ -35,3 +38,35 @@ ggplot(survival::lung, aes(x = time, y = ph.ecog)) +
 ## Data sources
 
 The primary data source was the Demographic and Health Surveys (DHS) Individual Recode (IR) where each row consist of a woman and their responses on multiple questions.
+
+# Basic concepts
+## Survival analysis 
+
+Survival analysis is a collection of statistical methods for studying the time to
+methods to study the time to occurrence of an event* (also known as survival
+the occurrence of an event* (also known as failure time analysis or survival analysis). (also known as failure time analysis or survival analysis). The name 
+survival is because these methods are generally used to study time-to-death
+to study times to death, some fields of application of survival analysis of survival analysis include: Health sciences, engineering, social sciences, economics, epidemiology, among others.
+Survival data must face an (often unavoidable) problem called censorship.
+censoring occurs when you have some information on a patient's survival time but do not have the survival time of a patient but the exact time of failure is not known.
+
+Let $T$ be a random variable denoting the survival time of a unit or person.
+of a unit or person. The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
+
+$$S(t)= P(T>t)$$
+
+The survival function $S(t)$ is fundamental in the SA because for different values of $t$ it provides crucial information. different values of $t$ provides crucial information of the survival data 
+
+
+In some situations it may be of greater interest to quantify the risk of failure at a given instant than to estimate survival; one function of interest in survival analysis that allows this to be done is the Hazard function.
+
+The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given by: 
+
+$$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$
+The numerator represents the conditional probability of the event occurring in an infinitesimal interval $[t,t+\Delta t]$ (as $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$. survived until t (T>t).
+
+## Censorship
+
+An observation in a random variable $T$ is said to be right-censored if all that is known about of $T$ is that it is greater than some value c. In AS, $T$ refers
+at the time of occurrence of some particular event and a case is
+considered right-censored if it stops observing before for the event to occur.
