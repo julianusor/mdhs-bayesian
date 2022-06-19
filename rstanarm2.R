@@ -4,9 +4,8 @@ library(mortDHS)
 library(haven)
 library(tidyverse)
 library(rstanarm)
-#data/descomprimir/rwanda-2020.dta
 
-data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta", n_max = 100)
+data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta", n_max = 300)
 
 # 71901 rows
 #data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta")
@@ -23,34 +22,33 @@ data_siblings <- read_dhs_surv("data/descomprimir/rwanda-2020.dta", n_max = 100)
 #1       male
 #2     female
 
-
-# filter : 1980 a 1982
-
-group_year <- 1900
-group_time <- 200
-l <- (group_year - 1900) * 12 + 0
-u <- (group_year - 1900) * 12 + 12 * group_time
-
-
-data_siblings <- data_siblings %>% filter((birth_cmc < u) & (birth_cmc > l))
-
-
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 
+data_siblings$age <- data_siblings$death_time / 12
+data_siblings$death_time < 18*12
+# ceros a 0.1
+data_siblings <- data_siblings %>%
+  mutate(death_time = if_else(death_time == 0, 0.1, death_time))
+#
+data_siblings <- data_siblings %>%
+  mutate(age_group = if_else(death_time < 18*12, "menor", "mayor"))
 
-
-# =========== modelo
-qlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 6), na.rm = TRUE)
+# =========== modelo 1.
+qlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
 (qlist)
 qlist <- as.vector(qlist)
 (qlist)
 mod1 <-
   stan_surv(
-    formula = Surv(death_time, survival_status) ~ sex,
+    formula = Surv(death_time, survival_status) ~ -1 + sex + age_group,
     data = data_siblings,
     basehaz = "ms" ,
-    basehaz_ops = list(degree = 3, knots = qlist)
+    basehaz_ops = list(degree = 3, knots = qlist),
+    #prior_aux = dirichlet(2),
+    iter = 2000
   )
+
+summary(mod1, digits = 3)
 
 # estos modelos no son tan suaves comparados al modelo no parametrico
 
@@ -61,15 +59,14 @@ mod3 <- stan_surv(formula = Surv(death_time, survival_status) ~ -1 + sex + age_g
                   data = data_siblings, basdehaz="weibull")
 
 
-#basehaz_ops = list(degree = 3, knots = c(10,20))
+
+bayesplot::color_scheme_set("red")
 
 plot(mod1, plotfun = "basehaz")
 plot_grid(mod1,  ncol = 1)
 # muy util 
-print(mod1, digits = 4)
 prior_summary(mod1) #-> prioris
-# basehaz_ops = list(degree = 2, knots = c(10,20))
-bayesplot::color_scheme_set("red")
+
 
 # area para coeficientes de splines
 bayesplot::mcmc_areas(mod1, regex_pars = "m-sp*", prob = 0.95)
@@ -81,24 +78,46 @@ bayesplot::mcmc_areas(mod1, regex_pars = "*Intercept*|sex*", prob = 0.95)
 # pero el grafico de abajo me contradice
 
 # pag 18
-nd <- data.frame(sex = c("1", "2"))
 #"pag 24"
+
+nd <- data.frame(sex = c("1", "2"), age_group = "menor")
 posterior_survfit(
   mod1,
   newdata = nd,
   times = 0,
+  last_time = 100,
+  prob = 0.95,
+  extrapolate = TRUE
+) -> pf1
+
+nd <- data.frame(sex = c("1", "2"), age_group = "mayor")
+posterior_survfit(
+  mod1,
+  newdata = nd,
+  times = 0,
+  last_time = 100,
   prob = 0.95,
   extrapolate = TRUE
 ) -> pf1
 
 plot(pf1)
+
+posterior_survfit(
+  mod1,
+  newdata = nd,
+  condition =  FALSE,
+  extrapolate = FALSE,
+  times = 200,
+  prob = 0.95
+)
+
 # rhat
 plot(mod1, "rhat")
 
 #_________
 
 # Autocorrelation para todos menos m-spline
-plot(mod1, "acf", pars = "(Intercept)", regex_pars = "sex*")
+plot(mod1, "acf", pars = "(Intercept)", regex_pars = "sex*", ylim = c(0, 0.1))
 
 # Autocorrelation para todos m-spline
 plot(mod1, "acf", pars = "(Intercept)", regex_pars = "m-spl*")

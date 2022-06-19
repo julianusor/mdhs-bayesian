@@ -1,14 +1,17 @@
 ---
-title: "Using Bayesian in survival analysis to estimate mortality on African countries"
-author: "Julián - -"
-date: "5/31/2022"
+title: "Bayesian Estimation of parameters for Survival models using the Cox Proportional model"
+author: "Daniela Pico Julian Usuga Deivid Zhang"
+date: '2022-06-19'
 output: pdf_document
+classoption:
+- twocolumn
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+library(tidyverse)
 ```
-
+# Introduction
 The primary aim of our study is examine the mortality and survival of the people from African countries.
 
 Specifically, to estimate survival time
@@ -19,6 +22,15 @@ and probability, to identify predictive factors, and to describe causes and circ
 Many countries don't have good registries management on government institutions and thus they don't have a good record of important events such as population deaths, the Demographic and Health Surveys (DHS) facilitates multiple datasets containing data collected from questionnaires performed in households from a large list of countries.
 
 In our study we will consider the Individual Women's data, which consist of questionnaires performed to womens. they were asked about wherever they had siblings, their survival status, age and death date (in case they have died).
+
+## Data sources
+
+The primary data source was the Demographic and Health Surveys (DHS) Individual Recode (IR) where each row consist of a woman and their responses on multiple questions.
+
+```{r}
+ggplot(survival::lung, aes(x = time, y = ph.ecog)) +
+  geom_jitter()
+```
 
 ## Data sources
 
