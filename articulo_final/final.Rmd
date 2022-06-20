@@ -65,11 +65,11 @@ The numerator represents the conditional probability of the event occurring in a
 
 The cumulative hazard is defined as:
 
-$$H(t)=\int_{-\infty}^{t}h(s)ds$$
+$$H(t)=\int_{0}^{t}h(s)ds$$
 
 Where $h(s)$ is the hazard function.There is a one-to-one relationship between the hazard function, the cumulative hazard and the probability of survival, as follows
 
-$$S(t)=exp(-H(t))=exp(-\int_{-\infty}^{t}h(s)ds)$$
+$$S(t)=exp(-H(t))=exp(-\int_{0}^{t}h(s)ds)$$
 
 ## Censorship
 
@@ -98,3 +98,29 @@ The K-M estimator is defined as
 $$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
 
 ## Cox proportional hazards model
+
+Under a hazard scale formulation, we model the hazard of the event for individual i at time t using the regression model:
+
+$$h(t|X_i)=h_0(t)exp(X_i\beta)$$
+
+Where $h_0$ is called the hazard base, that is, $h0(t)$ is the risk when all $X_i$ variables are 0. $h_0(t)$ characterizes the way in which hazard changes as a function of survival time, while the second term characterizes the way the hazard changes as function of the covariates at the same time guarantees that this is positive, it is also called the linear predictor.
+
+The formulation of the Cox model in terms of the hazard and the survival function
+are given by:
+From (2) we note that
+$$S(t;x)=exp(-H(t;x))$$
+Where $H(t;\vec{x})$ is the cumulative hazard for a subject with covariates $\vec{x}=(x_1,x_2,..x_k)$
+Assuming survival time is continuous
+
+$$H(t;\vec{x})=\int_{0}^{t} h(s;\vec{x})ds=\int_{0}^{t} h_0(s)exp(\beta^T\vec{x})ds$$
+$$=exp(\beta^T\vec{x})\int_{0}^{t} h_0(s)ds=
+exp(\beta^T\vec{x})H_0(T)$$
+
+Cox model in terms of cumulative hazard. In this expression $H_0(t)$ is the cumulative baseline hazard. This relationship can be thought of as a baseline
+cumulative risk measure which is modified according to the function
+
+From the above relationship, the Cox model can be formulated in terms of survival:
+
+$$S(t;\vec{x})=exp(-H(t;\vec{x}))=exp(e^{\beta^T\vec{x}})H_0(t)=$$
+$$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$ 
+Cox model in terms of survival. In this expression $S_0(t)$ is the survival baseline.
