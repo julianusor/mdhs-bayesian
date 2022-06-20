@@ -42,31 +42,59 @@ The primary data source was the Demographic and Health Surveys (DHS) Individual 
 # Basic concepts
 ## Survival analysis 
 
-Survival analysis is a collection of statistical methods for studying the time to
-methods to study the time to occurrence of an event* (also known as survival
-the occurrence of an event* (also known as failure time analysis or survival analysis). (also known as failure time analysis or survival analysis). The name 
-survival is because these methods are generally used to study time-to-death
-to study times to death, some fields of application of survival analysis of survival analysis include: Health sciences, engineering, social sciences, economics, epidemiology, among others.
-Survival data must face an (often unavoidable) problem called censorship.
-censoring occurs when you have some information on a patient's survival time but do not have the survival time of a patient but the exact time of failure is not known.
+Survival analysis is a collection of statistical methods to study the time that elapses until the occurence of an event(also known as event analysis failure times or survival analysis).The name is survival is because
+these methods are generally used to study times to death, sime fields of application of survival analysis include: health sciences, engineering, social sciences, economics, epidemiology, among others. Survival data must face a problem
+(often unavoidable) called censorship, censorship occurs when you have some information about the survival times of a patient but the time to failure is not exactly known.
+
+There are three essential quantities of interest for survival analysis: the hazard rate, the cumulative hazard function, and the survival probability. It is these quantities that are used to form the likelihood  the survival models described in later sections.
 
 Let $T$ be a random variable denoting the survival time of a unit or person.
-of a unit or person. The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
+ The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
 
 $$S(t)= P(T>t)$$
 
-The survival function $S(t)$ is fundamental in the SA because for different values of $t$ it provides crucial information. different values of $t$ provides crucial information of the survival data 
-
-
-In some situations it may be of greater interest to quantify the risk of failure at a given instant than to estimate survival; one function of interest in survival analysis that allows this to be done is the Hazard function.
+The survival function $S(t)$ is fundamental in AS since for
+different values of $t$ provide crucial information
+of survival data In some situations it may be more interest to quantify
+the risk of failure at a given instant than to estimate survival; a function of interest in survival analysis that allows do this is the danger function
 
 The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given by: 
 
 $$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$
 The numerator represents the conditional probability of the event occurring in an infinitesimal interval $[t,t+\Delta t]$ (as $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$. survived until t (T>t).
 
+The cumulative hazard is defined as:
+
+$$H(t)=\int_{-\infty}^{t}h(s)ds$$
+
+Where $h(s)$ is the hazard function.There is a one-to-one relationship between the hazard function, the cumulative hazard and the probability of survival, as follows
+
+$$S(t)=exp(-H(t))=exp(-\int_{-\infty}^{t}h(s)ds)$$
+
 ## Censorship
 
 An observation in a random variable $T$ is said to be right-censored if all that is known about of $T$ is that it is greater than some value c. In AS, $T$ refers
 at the time of occurrence of some particular event and a case is
 considered right-censored if it stops observing before for the event to occur.
+Survival probability can be estimated nonparametrically over time observations (censored and uncensored) using the Kaplan-Meyer method. Others two common approaches to modelling survival data. The first is to model the instantaneous
+rate of the event (known as the hazard) as a function of time. This includes the class of models known as proportional and non-proportional hazards regression models.The second is to model the event time itself. This includes the class of models known as accelerated failure time (AFT) models.
+
+# Models
+
+Under this modeling framework, it is proposed to implement a
+of Bayesian Cox proportional hazard to later make a comparison
+versus the frequentest approach and the kaplan Meier curve.
+
+## Kaplan–Meier estimator
+
+The Kaplan-Meier estimator, also known as the limit product estimator, is a nonparametric method for estimating the survival function.
+survival function by maximizing the sample likelihood function. Suppose one has k different failure times $t_1<t_2<...<t_k$, in each time $t_j(j=1,2,...k)$
+there are $n_j$ subjects that are under observation and at risk of an event of
+interest.
+
+
+
+The K-M estimator is defined as
+$$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
+
+## Cox proportional hazards model
