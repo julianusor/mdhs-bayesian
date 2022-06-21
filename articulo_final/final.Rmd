@@ -1,67 +1,22 @@
----
-title: "Bayesian Estimation of parameters for Survival models using the Cox Proportional model"
-author: "Daniela Pico Julian Usuga Deivid Zhang"
-date: '2022-06-19'
-output: pdf_document
-classoption:
-- twocolumn
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
-library(tidyverse)
-```
-
- 
-
-# Introduction
-The primary aim of our study is examine the mortality and survival of the people from African countries.
-
-Specifically, to estimate survival time
-and probability, to identify predictive factors, and to describe causes and circumstances of deaths. 
-
-# Methods
-## Study Population
-Many countries don't have good registries management on government institutions and thus they don't have a good record of important events such as population deaths, the Demographic and Health Surveys (DHS) facilitates multiple datasets containing data collected from questionnaires performed in households from a large list of countries.
-
-In our study we will consider the Individual Women's data, which consist of questionnaires performed to womens. they were asked about wherever they had siblings, their survival status, age and death date (in case they have died).
-
-## Data sources
-
-The primary data source was the Demographic and Health Surveys (DHS) Individual Recode (IR) where each row consist of a woman and their responses on multiple questions.
-
-```{r}
-ggplot(survival::lung, aes(x = time, y = ph.ecog)) +
-  geom_jitter()
-```
-
-## Data sources
-
-The primary data source was the Demographic and Health Surveys (DHS) Individual Recode (IR) where each row consist of a woman and their responses on multiple questions.
+------------------------------------------------------------------------
 
 # Basic concepts
-## Survival analysis 
 
-Survival analysis is a collection of statistical methods to study the time that elapses until the occurence of an event(also known as event analysis failure times or survival analysis).The name is survival is because
-these methods are generally used to study times to death, sime fields of application of survival analysis include: health sciences, engineering, social sciences, economics, epidemiology, among others. Survival data must face a problem
-(often unavoidable) called censorship, censorship occurs when you have some information about the survival times of a patient but the time to failure is not exactly known.
+## Survival analysis
 
-There are three essential quantities of interest for survival analysis: the hazard rate, the cumulative hazard function, and the survival probability. It is these quantities that are used to form the likelihood  the survival models described in later sections.
+Survival analysis is a collection of statistical methods to study the time that elapses until the occurence of an event(also known as event analysis failure times or survival analysis).The name is survival is because these methods are generally used to study times to death, sime fields of application of survival analysis include: health sciences, engineering, social sciences, economics, epidemiology, among others. Survival data must face a problem (often unavoidable) called censorship, censorship occurs when you have some information about the survival times of a patient but the time to failure is not exactly known.
 
-Let $T$ be a random variable denoting the survival time of a unit or person.
- The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
+There are three essential quantities of interest for survival analysis: the hazard rate, the cumulative hazard function, and the survival probability. It is these quantities that are used to form the likelihood the survival models described in later sections.
+
+Let $T$ be a random variable denoting the survival time of a unit or person. The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
 
 $$S(t)= P(T>t)$$
 
-The survival function $S(t)$ is fundamental in AS since for
-different values of $t$ provide crucial information
-of survival data In some situations it may be more interest to quantify
-the risk of failure at a given instant than to estimate survival; a function of interest in survival analysis that allows do this is the danger function
+The survival function $S(t)$ is fundamental in AS since for different values of $t$ provide crucial information of survival data In some situations it may be more interest to quantify the risk of failure at a given instant than to estimate survival; a function of interest in survival analysis that allows do this is the danger function
 
-The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given by: 
+The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given by:
 
-$$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$
-The numerator represents the conditional probability of the event occurring in an infinitesimal interval $[t,t+\Delta t]$ (as $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$. survived until t (T>t).
+$$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$ The numerator represents the conditional probability of the event occurring in an infinitesimal interval $[t,t+\Delta t]$ (as $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$. survived until t (T\>t).
 
 The cumulative hazard is defined as:
 
@@ -73,29 +28,17 @@ $$S(t)=exp(-H(t))=exp(-\int_{0}^{t}h(s)ds)$$
 
 ## Censorship
 
-An observation in a random variable $T$ is said to be right-censored if all that is known about of $T$ is that it is greater than some value c. In AS, $T$ refers
-at the time of occurrence of some particular event and a case is
-considered right-censored if it stops observing before for the event to occur.
-Survival probability can be estimated nonparametrically over time observations (censored and uncensored) using the Kaplan-Meyer method. Others two common approaches to modelling survival data. The first is to model the instantaneous
-rate of the event (known as the hazard) as a function of time. This includes the class of models known as proportional and non-proportional hazards regression models.The second is to model the event time itself. This includes the class of models known as accelerated failure time (AFT) models.
+An observation in a random variable $T$ is said to be right-censored if all that is known about of $T$ is that it is greater than some value c. In AS, $T$ refers at the time of occurrence of some particular event and a case is considered right-censored if it stops observing before for the event to occur. Survival probability can be estimated nonparametrically over time observations (censored and uncensored) using the Kaplan-Meyer method. Others two common approaches to modelling survival data. The first is to model the instantaneous rate of the event (known as the hazard) as a function of time. This includes the class of models known as proportional and non-proportional hazards regression models.The second is to model the event time itself. This includes the class of models known as accelerated failure time (AFT) models.
 
 # Models
 
-Under this modeling framework, it is proposed to implement a
-of Bayesian Cox proportional hazard to later make a comparison
-versus the frequentest approach and the kaplan Meier curve.
+Under this modeling framework, it is proposed to implement a of Bayesian Cox proportional hazard to later make a comparison versus the frequentest approach and the kaplan Meier curve.
 
-## Kaplan–Meier estimator
+## Kaplan--Meier estimator
 
-The Kaplan-Meier estimator, also known as the limit product estimator, is a nonparametric method for estimating the survival function.
-survival function by maximizing the sample likelihood function. Suppose one has k different failure times $t_1<t_2<...<t_k$, in each time $t_j(j=1,2,...k)$
-there are $n_j$ subjects that are under observation and at risk of an event of
-interest.
+The Kaplan-Meier estimator, also known as the limit product estimator, is a nonparametric method for estimating the survival function. survival function by maximizing the sample likelihood function. Suppose one has k different failure times $t_1<t_2<…<t_k$, in each time $t_j(j=1,2,…k)$ there are $n_j$ subjects that are under observation and at risk of an event of interest.
 
-
-
-The K-M estimator is defined as
-$$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
+The K-M estimator is defined as $$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
 
 ## Cox proportional hazards model
 
@@ -105,22 +48,149 @@ $$h(t|X_i)=h_0(t)exp(X_i\beta)$$
 
 Where $h_0$ is called the hazard base, that is, $h0(t)$ is the risk when all $X_i$ variables are 0. $h_0(t)$ characterizes the way in which hazard changes as a function of survival time, while the second term characterizes the way the hazard changes as function of the covariates at the same time guarantees that this is positive, it is also called the linear predictor.
 
-The formulation of the Cox model in terms of the hazard and the survival function
-are given by:
-From (2) we note that
-$$S(t;x)=exp(-H(t;x))$$
-Where $H(t;\vec{x})$ is the cumulative hazard for a subject with covariates $\vec{x}=(x_1,x_2,..x_k)$
-Assuming survival time is continuous
+The formulation of the Cox model in terms of the hazard and the survival function are given by: From (2) we note that $$S(t;x)=exp(-H(t;x))$$ Where $H(t;\vec{x})$ is the cumulative hazard for a subject with covariates $\vec{x}=(x_1,x_2,..x_k)$ Assuming survival time is continuous
 
-$$H(t;\vec{x})=\int_{0}^{t} h(s;\vec{x})ds=\int_{0}^{t} h_0(s)exp(\beta^T\vec{x})ds$$
-$$=exp(\beta^T\vec{x})\int_{0}^{t} h_0(s)ds=
+$$H(t;\vec{x})=\int_{0}^{t} h(s;\vec{x})ds=\int_{0}^{t} h_0(s)exp(\beta^T\vec{x})ds$$ $$=exp(\beta^T\vec{x})\int_{0}^{t} h_0(s)ds=
 exp(\beta^T\vec{x})H_0(T)$$
 
-Cox model in terms of cumulative hazard. In this expression $H_0(t)$ is the cumulative baseline hazard. This relationship can be thought of as a baseline
-cumulative risk measure which is modified according to the function
+Cox model in terms of cumulative hazard. In this expression $H_0(t)$ is the cumulative baseline hazard. This relationship can be thought of as a baseline cumulative risk measure which is modified according to the function
 
 From the above relationship, the Cox model can be formulated in terms of survival:
 
-$$S(t;\vec{x})=exp(-H(t;\vec{x}))=exp(e^{\beta^T\vec{x}})H_0(t)=$$
-$$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$ 
-Cox model in terms of survival. In this expression $S_0(t)$ is the survival baseline.
+$$S(t;\vec{x})=exp(-H(t;\vec{x}))=exp(e^{\beta^T\vec{x}})H_0(t)=$$ $$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$ Cox model in terms of survival. In this expression $S_0(t)$ is the survival baseline.
+
+# Estimation
+
+In our study we used an M-Spline model approximation for the hazard baseline $h_0$, this approximation uses for the $\gamma_l$ coefficients, the package rstanarm handles this using a Dirichlet prior with concentration parameter of 1.
+
+So the hazard of dying for the individual i at time t is given by:
+
+$$
+h_i(t) = \sum_{l = 1}^{L}\gamma_l \text{M}_l(t \ | \ k, \delta) \ast \mathrm{exp}(\beta \cdot X_i)
+$$
+
+Where $k = \{k_1, … ,k_J\}$ is a set of knots given by the user, we observed that a decent number of knots is around 6 (including the 2 boundary knots, k_1 located at the earliest entry time and k_J located at the lastest event), $\beta = (\beta_0, \beta_1, … , \beta_n)$ is the vector of parameters to estimate in our linear model and $X_i = (1, x_1, …, x_n)$ is the vector of covariables. We will leave the default degree of the splines $\delta$ at 3. 31b8e172-b470-440e-83d8-e6b185028602:dAB5AHAAZQA6AFoAUQBBAHgAQQBEAGcAQQBNAFEAQQA1AEEARABZAEEATQBBAEEAMQBBAEMAMABBAE0AQQBCAGgAQQBHAE0AQQBaAEEAQQB0AEEARABRAEEAWgBnAEIAaABBAEcAVQBBAEwAUQBBADQAQQBHAEkAQQBPAFEAQQA1AEEAQwAwAEEATwBRAEIAagBBAEQARQBBAFkAZwBBADMAQQBHAEkAQQBaAEEAQQAzAEEARwBNAEEATQBBAEIAbQBBAEQARQBBAAoAcABvAHMAaQB0AGkAbwBuADoATgBnAEEAeABBAEQAawBBAE8AUQBBAD0ACgBwAHIAZQBmAGkAeAA6AAoAcwBvAHUAcgBjAGUAOgBMAFEAQQB0AEEAQwAwAEEAQwBnAEIAMABBAEcAawBBAGQAQQBCAHMAQQBHAFUAQQBPAGcAQQBnAEEAQwBJAEEAUQBnAEIAaABBAEgAawBBAFoAUQBCAHoAQQBHAGsAQQBZAFEAQgB1AEEAQwBBAEEAUgBRAEIAegBBAEgAUQBBAGEAUQBCAHQAQQBHAEUAQQBkAEEAQgBwAEEARwA4AEEAYgBnAEEAZwBBAEcAOABBAFoAZwBBAGcAQQBIAEEAQQBZAFEAQgB5AEEARwBFAEEAYgBRAEIAbABBAEgAUQBBAFoAUQBCAHkAQQBIAE0AQQBJAEEAQgBtAEEARwA4AEEAYwBnAEEAZwBBAEYATQBBAGQAUQBCAHkAQQBIAFkAQQBhAFEAQgAyAEEARwBFAEEAYgBBAEEAZwBBAEcAMABBAGIAdwBCAGsAQQBHAFUAQQBiAEEAQgB6AEEAQwBBAEEAZABRAEIAegBBAEcAawBBAGIAZwBCAG4AQQBDAEEAQQBkAEEAQgBvAEEARwBVAEEASQBBAEIARABBAEcAOABBAGUAQQBBAGcAQQBGAEEAQQBjAGcAQgB2AEEASABBAEEAYgB3AEIAeQBBAEgAUQBBAGEAUQBCAHYAQQBHADQAQQBZAFEAQgBzAEEAQwBBAEEAYgBRAEIAdgBBAEcAUQBBAFoAUQBCAHMAQQBDAEkAQQBDAGcAQgBoAEEASABVAEEAZABBAEIAbwBBAEcAOABBAGMAZwBBADYAQQBDAEEAQQBJAGcAQgBFAEEARwBFAEEAYgBnAEIAcABBAEcAVQBBAGIAQQBCAGgAQQBDAEEAQQBVAEEAQgBwAEEARwBNAEEAYgB3AEEAZwBBAEUAbwBBAGQAUQBCAHMAQQBHAGsAQQBZAFEAQgB1AEEAQwBBAEEAVgBRAEIAegBBAEgAVQBBAFoAdwBCAGgAQQBDAEEAQQBSAEEAQgBsAEEARwBrAEEAZABnAEIAcABBAEcAUQBBAEkAQQBCAGEAQQBHAGcAQQBZAFEAQgB1AEEARwBjAEEASQBnAEEASwBBAEcAUQBBAFkAUQBCADAAQQBHAFUAQQBPAGcAQQBnAEEAQwBjAEEATQBnAEEAdwBBAEQASQBBAE0AZwBBAHQAQQBEAEEAQQBOAGcAQQB0AEEARABFAEEATwBRAEEAbgBBAEEAbwBBAGIAdwBCADEAQQBIAFEAQQBjAEEAQgAxAEEASABRAEEATwBnAEEAZwBBAEgAQQBBAFoAQQBCAG0AQQBGADgAQQBaAEEAQgB2AEEARwBNAEEAZABRAEIAdABBAEcAVQBBAGIAZwBCADAAQQBBAG8AQQBZAHcAQgBzAEEARwBFAEEAYwB3AEIAegBBAEcAOABBAGMAQQBCADAAQQBHAGsAQQBiAHcAQgB1AEEARABvAEEAQwBnAEEAdABBAEMAQQBBAGQAQQBCADMAQQBHADgAQQBZAHcAQgB2AEEARwB3AEEAZABRAEIAdABBAEcANABBAEMAZwBBAHQAQQBDADAAQQBMAFEAQQA9AAoAcwB1AGYAZgBpAHgAOgA=:31b8e172-b470-440e-83d8-e6b185028602
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+library(tidyverse)
+
+# Abstract
+# Introduction 
+## The problem
+## Study population
+## Data sources
+# Basic Concepts
+## Survival analysis
+## Censorship 
+## Cox Model
+## Bayesian approach and why bayesian
+## mspline 
+# The package (mortdhs)
+# Results (graphics and tables)
+# Agracedimientos
+# References
+```
+
+# Abstract
+
+The primary aim of our study was to predict the mortality of the people from African countries, specifically, using data from DHS and functions from the package *mortDHS* we were able to create functions to, for any given country inside the set of DHS surveys, generate a model which can be used to make survival predictions and additional to that, make inference to model parameters, which can't be done in models with lack of parameters, such as the non-parametric Kaplan-Meier estimator, additional to that we can check differences between sex and countries. In order to have Bayesian properties in our models, we used the package *rstanarm*, which uses the Stan software to make his estimations.
+
+# Introduction
+
+## The problem
+
+In our study we were interested in estimating the mortality on African countries. These countries sometimes lack of a good and reliable registry of deaths and without these estimating mortality rates can be difficult, these rates have prime importance on epidemiological or socio-economic studies.
+
+In our study we used the survey data provided by DHS, these contain a large number of variables, people were asked about the survival status of their siblings so we only include sibling data on our study, we assess siblings survival, expecting to derivate from these the mortality of the population.
+
+## Study Population
+
+Many countries don't have good registries management on government institutions and thus they don't have a good record of important events such as population deaths, the Demographic and Health Surveys (DHS) facilitates multiple datasets containing data collected from questionnaires performed in households from a large list of countries.
+
+In our study we will consider the Individual Women's data, which consist of questionnaires performed to women. They were asked about wherever they had siblings, their survival status, age and death date (in case they have died).
+
+## Data source
+
+The primary data source was the Demographic and Health Surveys (DHS) Individual Recode (IR) where each row consist of a woman and their responses on multiple questions. There were multiple columns but we selected the ones related to siblings and their survival status, these where:
+
+-   Sibling sex (male or female)
+-   Sibling date of birth
+-   Sibling survival status (0 = dead, 1 = alive)
+-   Sibling date of death
+
+# Basic concepts
+
+## Survival analysis
+
+Survival analysis is a collection of statistical methods to study the time that elapses until the occurence of an event(also known as event analysis failure times or survival analysis).The name is survival is because these methods are generally used to study times to death, sime fields of application of survival analysis include: health sciences, engineering, social sciences, economics, epidemiology, among others. Survival data must face a problem (often unavoidable) called censorship, censorship occurs when you have some information about the survival times of a patient but the time to failure is not exactly known.
+
+There are three essential quantities of interest for survival analysis: the hazard rate, the cumulative hazard function, and the survival probability. It is these quantities that are used to form the likelihood the survival models described in later sections.
+
+Let $T$ be a random variable denoting the survival time of a unit or person. The survival function, which is denoted $S(t)$ gives the probability that a unit or person will survives beyond some specific time t. i.e,
+
+$$S(t)= P(T>t)$$
+
+The survival function $S(t)$ is fundamental in AS since for different values of $t$ provide crucial information of survival data In some situations it may be more interest to quantify the risk of failure at a given instant than to estimate survival; a function of interest in survival analysis that allows do this is the danger function
+
+The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given by:
+
+$$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$ The numerator represents the conditional probability of the event occurring in an infinitesimal interval $[t,t+\Delta t]$ (as $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$. survived until t (T\>t).
+
+The cumulative hazard is defined as:
+
+$$H(t)=\int_{0}^{t}h(s)ds$$
+
+Where $h(s)$ is the hazard function.There is a one-to-one relationship between the hazard function, the cumulative hazard and the probability of survival, as follows
+
+$$S(t)=exp(-H(t))=exp(-\int_{0}^{t}h(s)ds)$$
+
+## Aqui Modelos
+
+## Censorship
+
+An observation in a random variable $T$ is said to be right-censored if all that is known about of $T$ is that it is greater than some value c. In AS, $T$ refers at the time of occurrence of some particular event and a case is considered right-censored if it stops observing before for the event to occur. Survival probability can be estimated nonparametrically over time observations (censored and uncensored) using the Kaplan-Meyer method. Others two common approaches to modelling survival data. The first is to model the instantaneous rate of the event (known as the hazard) as a function of time. This includes the class of models known as proportional and non-proportional hazards regression models.The second is to model the event time itself. This includes the class of models known as accelerated failure time (AFT) models.
+
+## Bayesian approach and why Bayesian
+The main reason to go Bayesian in our study was to be able to make inference, in particular, to make easy to interpretative conclusions on our parameters and their significance, without the assumptions of frecuentists approaches.
+
+# Models
+
+Under this modeling framework, it is proposed to implement a of Bayesian Cox proportional hazard to later make a comparison versus the frequentest approach and the kaplan Meier curve.
+
+## Kaplan--Meier estimator
+
+The Kaplan-Meier estimator, also known as the limit product estimator, is a nonparametric method for estimating the survival function. survival function by maximizing the sample likelihood function. Suppose one has k different failure times $t_1<t_2<...<t_k$, in each time $t_j(j=1,2,...k)$ there are $n_j$ subjects that are under observation and at risk of an event of interest.
+
+The K-M estimator is defined as $$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
+
+## Cox proportional hazards model
+
+Under a hazard scale formulation, we model the hazard of the event for individual i at time t using the regression model:
+
+$$h(t|X_i)=h_0(t)exp(X_i\beta)$$
+
+Where $h_0$ is called the hazard base, that is, $h0(t)$ is the risk when all $X_i$ variables are 0. $h_0(t)$ characterizes the way in which hazard changes as a function of survival time, while the second term characterizes the way the hazard changes as function of the covariates at the same time guarantees that this is positive, it is also called the linear predictor.
+
+The formulation of the Cox model in terms of the hazard and the survival function are given by: From (2) we note that $$S(t;x)=exp(-H(t;x))$$ Where $H(t;\vec{x})$ is the cumulative hazard for a subject with covariates $\vec{x}=(x_1,x_2,..x_k)$ Assuming survival time is continuous
+
+$$H(t;\vec{x})=\int_{0}^{t} h(s;\vec{x})ds=\int_{0}^{t} h_0(s)exp(\beta^T\vec{x})ds$$ $$=exp(\beta^T\vec{x})\int_{0}^{t} h_0(s)ds=
+exp(\beta^T\vec{x})H_0(T)$$
+
+Cox model in terms of cumulative hazard. In this expression $H_0(t)$ is the cumulative baseline hazard. This relationship can be thought of as a baseline cumulative risk measure which is modified according to the function
+
+From the above relationship, the Cox model can be formulated in terms of survival:
+
+$$S(t;\vec{x})=exp(-H(t;\vec{x}))=exp(e^{\beta^T\vec{x}})H_0(t)=$$ $$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$ Cox model in terms of survival. In this expression $S_0(t)$ is the survival baseline.
+
+# Estimation
+
+In our study we used an M-Spline model approximation for the hazard baseline $h_0$, this approximation uses for the $\gamma_l$ coefficients, the package rstanarm handles this using a Dirichlet prior with concentration parameter of 1.
+
+So the hazard of dying for the individual i at time t is given by:
+
+$$
+h_i(t) = \sum_{l = 1}^{L}\gamma_l \text{M}_l(t \ | \ k, \delta) \ast \mathrm{exp}(\beta \cdot X_i)
+$$
+
+Where $k = \{k_1, ... ,k_J\}$ is a set of knots given by the user, we observed that a decent number of knots is around 6 (including the 2 boundary knots, k_1 located at the earliest entry time and k_J located at the lastest event), $\beta = (\beta_0, \beta_1, ... , \beta_n)$ is the vector of parameters to estimate in our linear model and $X_i = (1, x_1, ..., x_n)$ is the vector of covariables. We will leave the default degree of the splines $\delta$ at 3.
