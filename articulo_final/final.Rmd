@@ -229,17 +229,42 @@ vector of covariables. We will leave the default degree of the splines
 $\delta$ at 3.
 
 ## Priors
+
 asd
+getwd()
+
+
+## Model Selection
+
+To evaluate the performance of the predictions of each model we use a
+cross-validation technique. Through the loo() function that is included
+in the *rstanarm* package. The way this package divides the data in the
+cross validation is leaving a single observation out, the unit that is
+systematically omitted determines the predictive task in which the
+cross-validation evaluates the performance of the model, the
+computational method implemented is Pareto-smoothed importance sampling.
+
+the Pareto- $\hat{k}$ diagnostic estimates how far an individual
+leave-one-out distribution is from the full distribution. If leaving out
+an observation changes the posterior too much then importance sampling
+is not able to give reliable estimate. If $\hat{k}<0.5$, then the
+corresponding component of elpd_loo is estimated with high accuracy. If
+$0.5< \hat{k}<0.7$ the accuracy is lower, but still OK. if $\hat{k}>0.7,$
+then importance sampling is not able to provide useful estimate for that
+component/observation.
+
+The p_loo is called the effective number of parameters and can be
+calculated as the difference between the pd_loo and the log posterior
+predictive density without cross-validation. In well behaving cases
+p_loo$<N$ and p_loo $<p$, where p is the total number of parameters in
+the model. p_loo $>N$ or p_loo $>p$ indicates that the model has very
+weak predictive capability.
+
+Evaluating the predictive capacity of each model, it was obtained that the best performance is given by the model that specifies the hazard baseline as a spline, so our work will be developed based on this model, these results are attached in the annex.
 
 ## Results
-los resultados son:
-```{r}
-plot(pf1)plmod_splineot(pf1)
-```
-areas: 
-```{r}
-mcmc_areas(mod_spline, regex_pars = "(Intercept)|country*", prob = 0.90, prob_outer = 0.95)
-```
+
+
 
 
 ## References
@@ -253,6 +278,3 @@ Journal of The Royal Statistical Society, Series B, 34, 187-220, 1972.
 [3] ALLISON, P.D. Discrete-Time Methods for the Analysis of Event
 Histories, In Sociological Methodology 1982, ed. S. Leinhardt, San
 Francisco, CA: Jossey-Bass, 1982.
-
-
-holavhbnjmkl,
