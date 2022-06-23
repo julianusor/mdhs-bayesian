@@ -23,18 +23,10 @@ load(file = "../modelos.RData") # ruta a modelos.rdata
 
 # Abstract
 
-The primary aim of our study was to predict the mortality of the people
-from African countries, specifically, using data from DHS and functions
-from package *mortDHS* we were able to create functions for any given
-country inside the set of DHS surveys, generate a model which can be
-used to make survival predictions and additional to that, the effects
-associated with the survival of people are compared, measurement that
-cannot be done in models with lack of parameters, such as the
-non-parametric Kaplan-Meier estimator, specifically, we can make a
-discrimination between the differences in survival depending on the sex
-and the country to which each person belongs. In order to have Bayesian
-properties in our models, we used the package *rstanarm*, which uses the
-Stan software to make his estimations.
+The main objective of the study was to predict the mortality of
+people in African countries. Using data from the DHS and functions from the *mortDHS* package, functions were created for any given country within the set of DHS surveys, a useful model is generated to make predictions of survival and evaluate the effects associated with it, a measurement that cannot be made from non-parametric models such as Kaplan-Meier (as initially proposed in the study).
+Specifically, a discrimination is obtained between the differences in the survival of each person depending on their sex and country, these predictions are made from a Bayesian approach using the *Rstanarm* package, which uses the Stan software to make its estimates.
+
 
 # Introduction
 
