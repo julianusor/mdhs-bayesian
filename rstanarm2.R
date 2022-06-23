@@ -3,6 +3,7 @@ source("functions/read_dhs.R")
 library(mortDHS)
 library(haven)
 library(tidyverse)
+library(Rcpp)
 library(rstanarm)
 library(bayesplot)
 library(cowplot)
@@ -79,7 +80,7 @@ mod_weibull <-
     basehaz = "weibull"
   )
 
-summary(mod1, digits = 3)
+summary(mod_spline, digits = 3)
 summary(mod2, digits = 3)
 
 #comparar
@@ -87,23 +88,17 @@ loo_compare(loo(mod_spline), loo(mod_exp), loo(mod_weibull))
 
 # estos modelos no son tan suaves comparados al modelo no parametrico
 
-p1=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", country = "rw")))
-p2=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", country = "rw")))
-p3=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", country = "se")))
-p4=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", country = "se")))
-p5=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", country = "ma")))
-p6=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", country = "ma")))
-p7=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", country = "co")))
+p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")), main= "rwandan men")
+p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")))
+p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")))
+p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")))
+p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")))
+p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")))
+p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
 p8=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", country = "co")))
 
 plot_grid(p1,
           p2,
-          p3,
-          p4,
-          p5,
-          p6,
-          p7, 
-          p8,
           ncol = 2)
 
 
