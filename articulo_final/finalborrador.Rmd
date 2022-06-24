@@ -407,8 +407,8 @@ mod\_exp     & -339.8     & 31.2     \\ \hline
 
 \newpage
 
-```{r}
-knitr::include_graphics("articulo_final/Graficas articulo final/grafica de prueba.png")
+```{r, out.width=100}
+#knitr::include_graphics("articulo_final/Graficas articulo final/grafica de prueba.png", error = F)
 ```
 
 

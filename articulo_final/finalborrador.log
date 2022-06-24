@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2021.12.12)  23 JUN 2022 20:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2021.12.12)  23 JUN 2022 20:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -564,26 +564,40 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[4] [5
 
-LaTeX Warning: File `grafica de prueba.png' not found on input line 488.
-
-
-! Package pdftex.def Error: File `grafica de prueba.png' not found: using draft
- setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.488 ...[width=\linewidth]{grafica de prueba.png}
-                                                   
+] (finalborrador.aux) ) 
 Here is how much of TeX's memory you used:
- 13372 strings out of 478659
- 214076 string characters out of 2845919
- 555840 words of memory out of 3000000
- 31079 multiletter control sequences out of 15000+600000
- 465178 words of font info for 138 fonts, out of 8000000 for 9000
+ 13352 strings out of 478659
+ 213165 string characters out of 2845919
+ 559959 words of memory out of 3000000
+ 31054 multiletter control sequences out of 15000+600000
+ 465261 words of font info for 139 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,9n,77p,1012b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
+{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/
+dvips/lm/lm-ec.enc}{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvip
+s/lm/lm-mathit.enc}{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvip
+s/lm/lm-mathex.enc}{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvip
+s/lm/lm-mathsy.enc}{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvip
+s/lm/lm-rm.enc}{C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm
+/lm-ts1.enc}<C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmbx10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmbx12.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmex10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmmi10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmmi5.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/
+lmmi7.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/l
+mr10.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lm
+r12.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr
+17.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7
+.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10
+.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10
+.pfb><C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.
+pfb>
+Output written on finalborrador.pdf (5 pages, 264235 bytes).
+PDF statistics:
+ 226 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
+ 34977 words of extra memory for PDF output out of 35830 (max. 10000000)
 
-!  ==> Fatal error occurred, no output PDF file produced!
