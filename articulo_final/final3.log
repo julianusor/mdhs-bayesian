@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2021.12.12)  24 JUN 2022 00:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12.10) (preloaded format=pdflatex 2021.12.12)  24 JUN 2022 01:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -380,6 +380,15 @@ LaTeX Warning: Label `fig:figs' multiply defined.
 
 LaTeX Warning: Label `fig:figs' multiply defined.
 
+
+LaTeX Warning: Label `fig:figs' multiply defined.
+
+
+LaTeX Warning: Label `fig:figs' multiply defined.
+
+
+LaTeX Warning: Label `fig:figs' multiply defined.
+
 )
 \openout1 = `final3.aux'.
 
@@ -586,55 +595,78 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<final3_files/figure-latex/unnamed-chunk-1-1.pdf, id=64, 469.755pt x 325.215pt>
-
-File: final3_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
-<use final3_files/figure-latex/unnamed-chunk-1-1.pdf>
-Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-1-1.pdf  used 
-on input line 506.
-(pdftex.def)             Requested size: 229.87375pt x 159.14336pt.
-<final3_files/figure-latex/unnamed-chunk-2-1.pdf, id=65, 469.755pt x 289.08pt>
+<final3_files/figure-latex/unnamed-chunk-2-1.pdf, id=64, 469.755pt x 289.08pt>
 File: final3_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use final3_files/figure-latex/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-2-1.pdf  used 
-on input line 512.
+on input line 501.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-<final3_files/figure-latex/unnamed-chunk-3-1.pdf, id=66, 469.755pt x 289.08pt>
+<final3_files/figure-latex/unnamed-chunk-3-1.pdf, id=65, 469.755pt x 289.08pt>
 File: final3_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use final3_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-3-1.pdf  used 
-on input line 518.
+on input line 508.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-<final3_files/figure-latex/unnamed-chunk-4-1.pdf, id=67, 469.755pt x 289.08pt>
+<final3_files/figure-latex/unnamed-chunk-4-1.pdf, id=66, 469.755pt x 289.08pt>
 File: final3_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use final3_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-4-1.pdf  used 
-on input line 524.
+on input line 515.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-<final3_files/figure-latex/unnamed-chunk-5-1.pdf, id=68, 469.755pt x 289.08pt>
+[4 <./final3_files/figure-latex/unnamed-chunk-2-1.pdf> <./final3_files/figure-l
+atex/unnamed-chunk-3-1.pdf> <./final3_files/figure-latex/unnamed-chunk-4-1.pdf>
+]
+<final3_files/figure-latex/unnamed-chunk-5-1.pdf, id=104, 469.755pt x 325.215pt
+>
 File: final3_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use final3_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-5-1.pdf  used 
-on input line 530.
-(pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-[4] [5 <./final3_files/figure-latex/unnamed-chunk-1-1.pdf> <./final3_files/figu
-re-latex/unnamed-chunk-2-1.pdf> <./final3_files/figure-latex/unnamed-chunk-3-1.
-pdf> <./final3_files/figure-latex/unnamed-chunk-4-1.pdf> <./final3_files/figure
--latex/unnamed-chunk-5-1.pdf>] [6
+on input line 527.
+(pdftex.def)             Requested size: 229.87375pt x 159.14336pt.
+<final3_files/figure-latex/unnamed-chunk-6-1.pdf, id=105, 469.755pt x 289.08pt>
 
-] (final3.aux)
+File: final3_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
+<use final3_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-6-1.pdf  used 
+on input line 533.
+(pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
+<final3_files/figure-latex/unnamed-chunk-7-1.pdf, id=106, 469.755pt x 289.08pt>
+
+File: final3_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
+<use final3_files/figure-latex/unnamed-chunk-7-1.pdf>
+Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-7-1.pdf  used 
+on input line 539.
+(pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
+<final3_files/figure-latex/unnamed-chunk-8-1.pdf, id=107, 469.755pt x 289.08pt>
+
+File: final3_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
+<use final3_files/figure-latex/unnamed-chunk-8-1.pdf>
+Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-8-1.pdf  used 
+on input line 545.
+(pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
+<final3_files/figure-latex/unnamed-chunk-9-1.pdf, id=108, 469.755pt x 289.08pt>
+
+File: final3_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
+<use final3_files/figure-latex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: final3_files/figure-latex/unnamed-chunk-9-1.pdf  used 
+on input line 551.
+(pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
+[5 <./final3_files/figure-latex/unnamed-chunk-5-1.pdf> <./final3_files/figure-l
+atex/unnamed-chunk-6-1.pdf> <./final3_files/figure-latex/unnamed-chunk-7-1.pdf>
+] [6 <./final3_files/figure-latex/unnamed-chunk-8-1.pdf> <./final3_files/figure
+-latex/unnamed-chunk-9-1.pdf>] (final3.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13397 strings out of 478659
- 214975 string characters out of 2845919
- 566035 words of memory out of 3000000
- 31085 multiletter control sequences out of 15000+600000
+ 13421 strings out of 478659
+ 216073 string characters out of 2845919
+ 559035 words of memory out of 3000000
+ 31103 multiletter control sequences out of 15000+600000
  465438 words of font info for 140 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 74i,9n,77p,1005b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 74i,9n,77p,1005b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
 {C:/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C
 :/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C
 :/Users/David/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}{C
@@ -654,9 +686,9 @@ d/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/David/
 AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/David/
 AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/David/
 AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb>
-Output written on final3.pdf (6 pages, 706594 bytes).
+Output written on final3.pdf (6 pages, 731976 bytes).
 PDF statistics:
- 271 PDF objects out of 1000 (max. 8388607)
- 59 named destinations out of 1000 (max. 500000)
- 35002 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 302 PDF objects out of 1000 (max. 8388607)
+ 62 named destinations out of 1000 (max. 500000)
+ 35017 words of extra memory for PDF output out of 35830 (max. 10000000)
 

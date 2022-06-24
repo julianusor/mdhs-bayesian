@@ -89,18 +89,28 @@ loo_compare(loo(mod_spline), loo(mod_exp), loo(mod_weibull))
 # estos modelos no son tan suaves comparados al modelo no parametrico
 
 p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")), main= "rwandan men")
-p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")))
-p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")))
-p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")))
-p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")))
-p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")))
-p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
-p8=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "co")))
+p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")), main = "rwandan women")
+p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")), main = "Senegalese men")
+p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")), main = "Senegalese women")
+p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")), main= "Malawian men")
+p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")), main= "Malawian women")
+# p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
+# p8=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "co")))
+
 
 plot_grid(p1,
           p2,
           ncol = 2)
 
+
+plot_grid(p3,
+          p4,
+          ncol = 2)
+
+
+plot_grid(p5,
+          p6,
+          ncol = 2)
 
 # exp
 p1=plot(posterior_survfit(mod2, newdata=data.frame(sex="1", country = "rw")))

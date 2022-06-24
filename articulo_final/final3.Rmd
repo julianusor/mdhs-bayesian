@@ -25,6 +25,16 @@ color_scheme_set("red")
 load(file = "../modelos.RData") # ruta a modelos.rdata
 ```
 
+```{r, echo = F}
+p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")), main= "rwandan men")
+p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")), main = "rwandan women")
+p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")), main = "Senegalese men")
+p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")), main = "Senegalese women")
+p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")), main= "Malawian men")
+p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")), main= "Malawian women")
+```
+
+
 # Abstract
 
 The main objective of the study was to predict the mortality of people
@@ -420,6 +430,26 @@ mod\_exp     & -339.8     & 31.2     \\ \hline
 \end{center}
 \end{table}
 ```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Rwanda respectively"}
+plot_grid(p1,
+          p2,
+          ncol = 2)
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Senegal respectively"}
+plot_grid(p3,
+          p4,
+          ncol = 2)
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Malawi respectively"}
+plot_grid(p5,
+          p6,
+          ncol = 2)
+```
+
+
 \newpage
 
 # Annexes
