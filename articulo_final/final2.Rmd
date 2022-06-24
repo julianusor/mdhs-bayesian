@@ -8,9 +8,11 @@ classoption:
 editor_options: 
   markdown: 
     wrap: 72
+    
 ---
 
-```{r setup, include=FALSE}
+
+```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 library(mortDHS)
 library(haven)
@@ -21,9 +23,11 @@ library(cowplot)
 library(huxtable)
 color_scheme_set("red")
 load(file = "../modelos.RData") # ruta a modelos.rdata
+load("~/GitHub/FinalProjectBayesian/.RData")
+load("~/GitHub/FinalProjectBayesian/modelos.RData")
 ```
 
-# Abstract
+## Abstract
 
 The main objective of the study was to predict the mortality of people
 in African countries. Using data from the DHS and functions from the
@@ -39,9 +43,11 @@ each person depending on their sex and country, these predictions are
 made from a Bayesian approach using the **rstanarm** package, which uses
 the Stan software to make its estimates.
 
-# Introduction
 
-## The problem
+
+## 1. Introduction
+
+### 1.1. The problem
 
 In our study we were interested in estimating the mortality on African
 countries. These countries sometimes lack of a good and reliable
@@ -55,7 +61,7 @@ of their siblings so we only include sibling data on our study, we
 assess siblings survival, expecting to derivate from these the mortality
 of the population.
 
-## Study Population
+### 1.2. Study Population
 
 Many countries don't have good registries management on government
 institutions and thus they don't have a good record of important events
@@ -68,7 +74,7 @@ of questionnaires performed to women. They were asked about wherever
 they had siblings, their survival status, age and death date (in case
 they have died).
 
-## Data source
+### 1.3. Data source
 
 The primary data source was the Demographic and Health Surveys (DHS)
 Individual Recode (IR) where each row consist of a woman and their
@@ -81,16 +87,16 @@ where:
 -   Sibling survival status (0 = dead, 1 = alive)
 -   Sibling date of death
 -   Sibling country of residency
-    -   On particular, we only selected the data from countries Malawi,
-        Senegal and Rwanda. But the functions can be extended to any set
-        of countries.
+-   On particular, we only selected the data from countries Malawi,
+    Senegal and Rwanda. But the functions can be extended to any set
+    of countries.
 
 From these we calculated the variable **time**, which has a great
 importance on survival analysis in general.
 
-# Basic concepts
+## 2. Basic concepts
 
-## Survival analysis
+### 2.1. Survival analysis
 
 Survival analysis is a collection of statistical methods for study the
 time that elapses until an event occurs [1]. The name survival is due to
@@ -139,7 +145,7 @@ of survival, as follows
 
 $$S(t)=exp(-H(t))=exp(-\int_{0}^{t}h(s)ds)$$
 
-## Censorship
+### 2.2. Censorship
 
 An observation in a random variable $T$ is said to be right-censored if
 all that is known about of $T$ is that it is greater than some value c.
@@ -158,20 +164,20 @@ models and non-proportional hazards regression models; the second is to
 model the time of the event itself. This includes the class of models
 known as accelerated time to failure (AFT) models.
 
-## Bayesian approach and why Bayesian
+## 3. Bayesian approach and why Bayesian
 
 The main reason to go Bayesian in our study was to be able to make
 inference, in particular, to make easy to interpretative conclusions on
 our parameters and their significance, without the assumptions of
 frecuentists approaches.
 
-# Models
+## 4. Models
 
 Under this modeling framework, it is proposed to implement a of Bayesian
 Cox proportional hazard to later make a comparison versus the
 frequentest approach and the Kaplan-Meier estimation.
 
-## Kaplan--Meier estimator
+### 4.1. Kaplan--Meier estimator
 
 The Kaplan-Meier estimator, also known as the limit product estimator,
 is a nonparametric method for estimating the survival function. survival
@@ -181,9 +187,10 @@ $t_j(j=1,2,...k)$ there are $n_j$ subjects that are under observation
 and at risk of an event of interest.
 
 The K-M estimator is defined as
+
 $$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}$$$$para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
 
-## Cox proportional hazards model
+### 4.2. Cox proportional hazards model
 
 Under a hazard scale formulation, we model the hazard of the event for
 individual $i$ at time $t$ using the following model:
@@ -221,14 +228,14 @@ $$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$
 Cox model in terms of survival. In this expression $S_0(t)$ is the
 survival baseline.
 
-# Estimation
+## 5. Estimation
 
 As we previously seen, the cox proportional hazard model has two parts,
 one is the baseline hazard and the second one is the linear model, for
 the linear model we only choose to estimate each of the $\beta$ using
 normal prios, but for the hazard baseline
 
-## Linear Model
+### 5.1. Linear Model
 
 From the Cox Proportional-Hazards Model we can extract the following
 expression, which we call the linear model.
@@ -257,7 +264,10 @@ $$
 \beta_{i} \sim N(0,2.5) \ \ \ \text{with   i = 1, 2, 3}
 $$
 
-## Baseline Hazard
+### 5.2. Baseline Hazard
+
+The *rstanarm* package allows specifying the risk base through different models, in our study we evaluated 3 types, through an exponential model: for scale parameter $\lambda_i(t) = exp(xi(t))$ , $h_i(t)=\lambda_i(t)$, Weibull model: for scale parameter $\lambda_i(t) = exp(xi(t))$ and shape parameter $\gamma>0$, $h_i(t)=\gamma t^{\gamma -1}\lambda _i(t)$. however, after making a selection of models we opted to work with the M-splines model
+
 
 In our study we used an M-Spline model to approximate the hazard
 baseline function $h_0$, this approximation consists of $\gamma_l$
@@ -277,7 +287,7 @@ The package **rstanarm** handles the calculation and sets a Dirichlet
 prior with concentration parameter of 1, ensuring an non-informative
 prior.
 
-## Model Selection
+## 6. Model Selection
 
 To evaluate the performance of the predictions of each model we use a
 cross-validation technique. Through the loo() function that is included
@@ -303,52 +313,12 @@ p_loo$<N$ and p_loo $<p$, where p is the total number of parameters in
 the model. p_loo $>N$ or p_loo $>p$ indicates that the model has very
 weak predictive capability.
 
-Evaluating the predictive capacity of each model, it was obtained that
-the best performance is given by the model that specifies the hazard
-baseline as a spline, so our work will be developed based on this model,
-these results are attached in the annex.
+Evaluating the predictive capacity of each model, a k<0.5 was obtained for all the models, indicating a good estimate, as can be seen in tables 4,5,6 of the annexes section, however, the only model that had a p_loo <p, being $p\_loo=8.3$ and $p =12$, was the model that estimates the base hazard as an M-splines as evidenced in table 4, it is also observed that this also has the lowest SE compared to the others, therefore that our work will be developed based on this model
 
-# Results
+## 7. Results
 
-## Convergence of estimation
-
-### Traceplot
-
-As we can see in the following graph, we achieved a nice convergence for
-each of the 3 chains.
-
-```{r}
-plot(mod_spline, "trace")
-```
-
-### Autocorrelation
-
-In the following graphs we check for autocorrelation between each of the
-coefficients estimated, as we can see we had a good convergence.
-
-```{r, fig.height=4}
-plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "sex2")
-```
-
-```{r, fig.height=4}
-plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "country*")
-```
-
-## Estimate
-
-In the following graphs we can see posterior probabilities distributions
-for estimated parameters, as we can see none of them contains $0$, that
-means that all of them have different effects on survival.
-
-```{r, fig.height=4}
-mcmc_areas(mod_spline, regex_pars = "Inter*|sex2|country*", prob = 0.90, prob_outer = 0.95)
-```
-
-```{r, fig.height=4}
-mcmc_areas(mod_spline, regex_pars = "Inter*|spline*", prob = 0.90, prob_outer = 0.95)
-```
-
-# 
+Table 1 presents the estimation of the Bayesian method described above, 4 chains were used, for each MCMC chain 2000 iterations were carried out, 1000 heating and 1000 sampling, in addition the convergence was evaluated for each parameter of interest, it was obtained by all the methods evaluated (traceplot, effective sample size, acf plots, Rhat), that the parameters converged as observed in table 1, figure 5 and figure 6 respectively.
+Table 2 shows the estimation of the frequentist method of the cox model through the Coxph function of the Survival package.
 
 ```{=tex}
 \begin{table}[h!]
@@ -379,7 +349,53 @@ countryse & -0.33077 & 0.71837   & 0.09340 \\ \hline
 \end{center}
 \end{table}
 ```
-# Annexes
+
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} Posterior probabilities distributions"}
+mcmc_areas(mod_spline, regex_pars = "Inter*|sex2|country*", prob = 0.90, prob_outer = 0.95)
+```
+```{r,fig.cap="\\label{fig:figs} Comparison between the KM curve and the Cox Model"}
+ps_check(mod_spline)
+```
+
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Rwanda respectively"}
+plot_grid(p1,
+          p2,
+          ncol = 2)
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Senegal respectively"}
+plot_grid(p3,
+          p4,
+          ncol = 2)
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Malawi respectively"}
+plot_grid(p5,
+          p6,
+          ncol = 2)
+```
+
+
+\newpage
+## 8. Interpretations
+
+* According to the estimates obtained, being a woman decreases the logarithm of the relative risk by 0.235 units when the other variables remain constant, belonging to the country of Rwanda increases the logarithm of the relative risk by 0.326 units when the other variables remain constant, while belonging to the country of Senegal the logarithm of the relative risk decreases by 0.326 units when the other variables remain constant, in addition there is statistical evidence to affirm that these parameters are significant, since in figure 4, no parameter takes the value of 0 and therefore these help to explain the probability survival in the regression model
+ * In figures 1, 2 and 3, it is observed that for each country the probability of survival is greater for women, in addition the probability of survival decreases if a person is from the country of Rwanda, since it is the country where the curve falls faster , followed by Malawi, in general terms Senegalese women are the group with the highest probability of survival in the three African countries analyzed.
+  * Figure 5 illustratively shows the behavior of the posterior distribution, drawing a vertical line at 0 shows that the posterior distribution for the country Senegal and sex 2 (female) takes negative values, indicating the decrease in the logarithm of the function of relative risk, being the strongest effect the one that takes more negative values or, failing that, more positive (those that are farthest from 0), finally, the country Rwanda takes positive values indicating the increase in the logarithm of the relative risk as had been specified above. 
+
+* Figure 6, which compares the survival curve estimated using the Kaplan-Meier frequentist method (stepped curve) with the Cox proportional hazards model (smooth curve), shows a similar behavior up to approximately month 750, in general terms. , makes a similar approximation for both models.
+
+## 9. Conclusions
+
+* In general terms, the estimates obtained on the Cox proportional hazards model by Bayesian estimation and by frequent estimation were very similar, therefore, it is concluded that the Bayesian estimation had a good performance in its estimation, in addition, the benefits of the Bayesian inference for example, the opportunity to make probability statements on parameters, the most natural handling of group-specific parameters, ease of parameter interpretability.
+ * Compared to the initial analysis developed by Kene David Nwosu, it was possible to obtain a deeper approach to the probability of survival, where these effects were measured discriminating against gender and country of belonging.
+  * The difference obtained at the end of the survival curves in figure 6 may be due to the fact that the curve estimated by the Cox model when taking into account the covariates mentioned above will show a different behavior, it can be thought that this curve is more similar to the true curve and therefore there was an improvement in the estimation of the survival curve.
+
+\newpage
+
+## 10. Annexes
 
 ```{=tex}
 \begin{table}[h!]
@@ -458,6 +474,25 @@ mod\_exp     & -339.8     & 31.2     \\ \hline
 \end{center}
 \end{table}
 ```
+
+\newpage
+```{r,fig.cap="\\label{fig:figs}Traceplot"}
+plot(mod_spline, "trace",pars = "(Intercept)", regex_pars = "country*")
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs}ACF"}
+plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "sex2")
+```
+
+```{r, fig.height=4,fig.cap="\\label{fig:figs}ACF"}
+plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "country*")
+```
+
+
+
+
+
+
 \newpage
 
 # References
