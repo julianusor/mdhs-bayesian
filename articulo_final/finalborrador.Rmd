@@ -18,6 +18,7 @@ library(tidyverse)
 library(rstanarm)
 library(bayesplot)
 library(cowplot)
+library(knitr)
 load(file = "../modelos.RData") # ruta a modelos.rdata
 ```
 
@@ -404,8 +405,12 @@ mod\_exp     & -339.8     & 31.2     \\ \hline
 \end{table}
 
 
-
 \newpage
+
+```{r}
+knitr::include_graphics("articulo_final/Graficas articulo final/grafica de prueba.png")
+```
+
 
 # References
 
