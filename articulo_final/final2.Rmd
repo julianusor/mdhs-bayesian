@@ -471,3 +471,9 @@ Journal of The Royal Statistical Society, Series B, 34, 187-220, 1972.
 [3] ALLISON, P.D. Discrete-Time Methods for the Analysis of Event
 Histories, In Sociological Methodology 1982, ed. S. Leinhardt, San
 Francisco, CA: Jossey-Bass, 1982.
+
+[4] Ueyama, M. & Yamauchi, F. (2009). Marriage Behavior Response to Prime-Age Adult Mortality: Evidence
+from Malawi. Demography, 46(1), 43–63. doi:10.1353/dem.0.0039
+
+[5] Masquelier, B. (2012). Adult Mortality From Sibling Survival Data: A Reappraisal of Selection Biases.
+Demography, 50(1), 207–228. doi:10.1007/s13524-012-0149-1
