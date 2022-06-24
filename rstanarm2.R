@@ -95,7 +95,7 @@ p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se"
 p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")))
 p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")))
 p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
-p8=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", country = "co")))
+p8=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "co")))
 
 plot_grid(p1,
           p2,
