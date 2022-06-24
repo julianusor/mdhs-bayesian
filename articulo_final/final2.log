@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.21)  24 JUN 2022 07:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.21)  24 JUN 2022 07:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -578,17 +578,17 @@ m/n/10 ,
 File: final2_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-1-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-1-1.pdf  used 
-on input line 443.
+on input line 445.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
 <final2_files/figure-latex/unnamed-chunk-2-1.pdf, id=133, 469.755pt x 325.215pt
 >
 File: final2_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-2-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-2-1.pdf  used 
-on input line 444.
+on input line 446.
 (pdftex.def)             Requested size: 229.87375pt x 159.14336pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 443--445
+Underfull \hbox (badness 10000) in paragraph at lines 445--447
 [][]
  []
 
@@ -597,58 +597,66 @@ Underfull \hbox (badness 10000) in paragraph at lines 443--445
 File: final2_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-3-1.pdf  used 
-on input line 448.
+on input line 450.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 [4 <./final2_files/figure-latex/unnamed-chunk-1-1.pdf>]
 <final2_files/figure-latex/unnamed-chunk-4-1.pdf, id=149, 469.755pt x 289.08pt>
 
 File: final2_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-4-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-4-1.pdf  used 
-on input line 455.
+on input line 457.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
 <final2_files/figure-latex/unnamed-chunk-5-1.pdf, id=150, 469.755pt x 289.08pt>
 
 File: final2_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-5-1.pdf  used 
-on input line 462.
+on input line 464.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
 [5 <./final2_files/figure-latex/unnamed-chunk-2-1.pdf> <./final2_files/figure-l
 atex/unnamed-chunk-3-1.pdf> <./final2_files/figure-latex/unnamed-chunk-4-1.pdf>
  <./final2_files/figure-latex/unnamed-chunk-5-1.pdf>]
-Underfull \hbox (badness 1320) in paragraph at lines 516--524
+Underfull \hbox (badness 1320) in paragraph at lines 518--526
 \T1/lmr/m/n/10 es-ti-ma-tion and by fre-quent es-ti-ma-tion were
  []
 
-[6]
-<final2_files/figure-latex/unnamed-chunk-6-1.pdf, id=203, 469.755pt x 325.215pt
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<final2_files/figure-latex/unnamed-chunk-6-1.pdf, id=192, 469.755pt x 325.215pt
 >
 File: final2_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-6-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-6-1.pdf  used 
-on input line 618.
+on input line 616.
 (pdftex.def)             Requested size: 229.87375pt x 159.14336pt.
-<final2_files/figure-latex/unnamed-chunk-7-1.pdf, id=204, 469.755pt x 289.08pt>
+<final2_files/figure-latex/unnamed-chunk-7-1.pdf, id=193, 469.755pt x 289.08pt>
 
 File: final2_files/figure-latex/unnamed-chunk-7-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-7-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-7-1.pdf  used 
-on input line 624.
+on input line 622.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-<final2_files/figure-latex/unnamed-chunk-8-1.pdf, id=205, 469.755pt x 289.08pt>
+<final2_files/figure-latex/unnamed-chunk-8-1.pdf, id=194, 469.755pt x 289.08pt>
 
 File: final2_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
 <use final2_files/figure-latex/unnamed-chunk-8-1.pdf>
 Package pdftex.def Info: final2_files/figure-latex/unnamed-chunk-8-1.pdf  used 
-on input line 630.
+on input line 628.
 (pdftex.def)             Requested size: 229.87375pt x 141.46075pt.
-[7 <./final2_files/figure-latex/unnamed-chunk-6-1.pdf> <./final2_files/figure-l
+[6 <./final2_files/figure-latex/unnamed-chunk-6-1.pdf> <./final2_files/figure-l
 atex/unnamed-chunk-7-1.pdf> <./final2_files/figure-latex/unnamed-chunk-8-1.pdf>
-] (./final2.aux)
+] [7] (./final2.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -658,7 +666,7 @@ Package rerunfilecheck Info: File `final2.out' has not changed.
 Here is how much of TeX's memory you used:
  10558 strings out of 480236
  167282 string characters out of 5894050
- 464630 words of memory out of 5000000
+ 462620 words of memory out of 5000000
  28276 multiletter control sequences out of 15000+600000
  525145 words of font info for 70 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -684,7 +692,7 @@ blic/lm/lmr7.pfb><c:/Users/Usuario/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/lm/lmri10.pfb><c:/Users/Usuario/AppData/Roaming/TinyTeX/texmf-dist/fo
 nts/type1/public/lm/lmsy10.pfb><c:/Users/Usuario/AppData/Roaming/TinyTeX/texmf-
 dist/fonts/type1/public/lm/lmsy7.pfb>
-Output written on final2.pdf (7 pages, 433760 bytes).
+Output written on final2.pdf (7 pages, 432391 bytes).
 PDF statistics:
  317 PDF objects out of 1000 (max. 8388607)
  260 compressed objects within 3 object streams

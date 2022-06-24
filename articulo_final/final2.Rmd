@@ -1,7 +1,7 @@
 ---
 title: "Bayesian Estimation of parameters for Survival models using the Cox Proportional model"
 author: "Daniela Pico Julian Usuga Deivid Zhang"
-date: '2022-06-19'
+date: ''
 output: pdf_document
 classoption:
 - twocolumn
@@ -313,10 +313,11 @@ p_loo$<N$ and p_loo $<p$, where p is the total number of parameters in
 the model. p_loo $>N$ or p_loo $>p$ indicates that the model has very
 weak predictive capability.
 
+\newpage
+
 Evaluating the predictive capacity of each model, a k<0.5 was obtained for all the models, indicating a good estimate, as can be seen in tables 4,5,6 of the annexes section, however, the only model that had a p_loo <p, being $p\_loo=8.3$ and $p =12$, was the model that estimates the base hazard as an M-splines as evidenced in table 4, it is also observed that this also has the lowest SE compared to the others, therefore that our work will be developed based on this model
 
 ## 7. Results
-
 Table 1 presents the estimation of the Bayesian method described above, 4 chains were used, for each MCMC chain 2000 iterations were carried out, 1000 heating and 1000 sampling, in addition the convergence was evaluated for each parameter of interest, it was obtained by all the methods evaluated (traceplot, effective sample size, acf plots, Rhat), that the parameters converged as observed in table 1, figure 5 and figure 6 respectively.
 Table 2 shows the estimation of the frequentist method of the cox model through the Coxph function of the Survival package.
 
@@ -392,8 +393,6 @@ plot_grid(p5,
 * In general terms, the estimates obtained on the Cox proportional hazards model by Bayesian estimation and by frequent estimation were very similar, therefore, it is concluded that the Bayesian estimation had a good performance in its estimation, in addition, the benefits of the Bayesian inference for example, the opportunity to make probability statements on parameters, the most natural handling of group-specific parameters, ease of parameter interpretability.
  * Compared to the initial analysis developed by Kene David Nwosu, it was possible to obtain a deeper approach to the probability of survival, where these effects were measured discriminating against gender and country of belonging.
   * The difference obtained at the end of the survival curves in figure 6 may be due to the fact that the curve estimated by the Cox model when taking into account the covariates mentioned above will show a different behavior, it can be thought that this curve is more similar to the true curve and therefore there was an improvement in the estimation of the survival curve.
-
-\newpage
 
 ## 10. Annexes
 
@@ -475,7 +474,7 @@ mod\_exp     & -339.8     & 31.2     \\ \hline
 \end{table}
 ```
 
-\newpage
+
 ```{r,fig.cap="\\label{fig:figs}Traceplot"}
 plot(mod_spline, "trace",pars = "(Intercept)", regex_pars = "country*")
 ```

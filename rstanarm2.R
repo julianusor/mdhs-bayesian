@@ -96,7 +96,7 @@ p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma"
 p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")), main= "Malawian women")
 # p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
 # p8=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "co")))
-
+ 
 
 plot_grid(p1,
           p2,
@@ -238,7 +238,7 @@ plot(mod1, "acf", pars = "(Intercept)", regex_pars = "m-spl*")
 plot(mod1, "trace")
 
 ##
-ps_check(mod1)
+ps_check(mod_spline)
 
 ##Comparación de modelos 
 loo(mod1)
@@ -280,7 +280,7 @@ p_combined2
 
 
 
-ps2 <- posterior_survfit(mod1, type="surv", standardise = FALSE, times = 0,
+ps2 <- posterior_survfit(mod_spline, type="surv", standardise = FALSE, times = 0,
                          control = list(epoints = 20))
 plot(ps2)
 
