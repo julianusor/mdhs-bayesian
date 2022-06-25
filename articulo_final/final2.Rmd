@@ -1,6 +1,6 @@
 ---
 title: "Bayesian Estimation of parameters for Survival models using the Cox Proportional model"
-author: "Daniela Pico Julian Usuga Deivid Zhang"
+author: "Daniela Pico, Julian Usuga, Deivid Zhang"
 date: ''
 output: pdf_document
 classoption:
@@ -205,7 +205,7 @@ at the same time guarantees that this is positive, it is also called the
 linear predictor.
 
 The formulation of the Cox model in terms of the hazard and the survival
-function are given by: From (2) we note that $$S(t;x)=exp(-H(t;x))$$
+function are given by: we note that $$S(t;x)=exp(-H(t;x))$$
 Where $H(t;\vec{x})$ is the cumulative hazard for a subject with
 covariates $\vec{x}=(x_1,x_2,..x_k)$ Assuming survival time is
 continuous
@@ -351,40 +351,43 @@ countryse & -0.33077 & 0.71837   & 0.09340 \\ \hline
 \end{table}
 ```
 
+\newpage
 
-```{r, fig.height=4,fig.cap="\\label{fig:figs} Posterior probabilities distributions"}
-mcmc_areas(mod_spline, regex_pars = "Inter*|sex2|country*", prob = 0.90, prob_outer = 0.95)
-```
-```{r,fig.cap="\\label{fig:figs} Comparison between the KM curve and the Cox Model"}
-ps_check(mod_spline)
-```
-
-
-```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Rwanda respectively"}
+```{r, fig.height=4,fig.pos = "!h",fig.cap="Survival function for men and women from Rwanda respectively"}
 plot_grid(p1,
           p2,
           ncol = 2)
 ```
 
-```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Senegal respectively"}
+```{r, fig.height=4,fig.pos = "!h",fig.cap="Survival function for men and women from Senegal respectively"}
 plot_grid(p3,
           p4,
           ncol = 2)
 ```
 
-```{r, fig.height=4,fig.cap="\\label{fig:figs} survival function for men and women from Malawi respectively"}
+```{r, fig.height=4,fig.pos = "!h",fig.cap="Survival function for men and women from Malawi respectively"}
 plot_grid(p5,
           p6,
           ncol = 2)
 ```
 
+```{r, fig.height=4,fig.pos = "!h",fig.cap="Posterior probabilities distributions"}
 
-\newpage
+
+mcmc_areas(mod_spline, regex_pars = "Inter*|sex2|country*", prob = 0.90, prob_outer = 0.95)
+```
+
+```{r,fig.pos = "!h",fig.cap="Comparison between the KM curve and the Cox Model"}
+ps_check(mod_spline)
+```
+
+
+
 ## 8. Interpretations
 
 * According to the estimates obtained, being a woman decreases the logarithm of the relative risk by 0.235 units when the other variables remain constant, belonging to the country of Rwanda increases the logarithm of the relative risk by 0.326 units when the other variables remain constant, while belonging to the country of Senegal the logarithm of the relative risk decreases by 0.326 units when the other variables remain constant, in addition there is statistical evidence to affirm that these parameters are significant, since in figure 4, no parameter takes the value of 0 and therefore these help to explain the probability survival in the regression model
  * In figures 1, 2 and 3, it is observed that for each country the probability of survival is greater for women, in addition the probability of survival decreases if a person is from the country of Rwanda, since it is the country where the curve falls faster , followed by Malawi, in general terms Senegalese women are the group with the highest probability of survival in the three African countries analyzed.
-  * Figure 5 illustratively shows the behavior of the posterior distribution, drawing a vertical line at 0 shows that the posterior distribution for the country Senegal and sex 2 (female) takes negative values, indicating the decrease in the logarithm of the function of relative risk, being the strongest effect the one that takes more negative values or, failing that, more positive (those that are farthest from 0), finally, the country Rwanda takes positive values indicating the increase in the logarithm of the relative risk as had been specified above. 
+  * Figure 4 illustratively shows the behavior of the posterior distribution, drawing a vertical line at 0 shows that the posterior distribution for the country Senegal and sex 2 (female) takes negative values, indicating the decrease in the logarithm of the function of relative risk, being the strongest effect the one that takes more negative values or, failing that, more positive (those that are farthest from 0), finally, the country Rwanda takes positive values indicating the increase in the logarithm of the relative risk as had been specified above. 
 
 * Figure 6, which compares the survival curve estimated using the Kaplan-Meier frequentist method (stepped curve) with the Cox proportional hazards model (smooth curve), shows a similar behavior up to approximately month 750, in general terms. , makes a similar approximation for both models.
 
@@ -511,3 +514,13 @@ from Malawi. Demography, 46(1), 43–63. doi:10.1353/dem.0.0039
 
 [5] Masquelier, B. (2012). Adult Mortality From Sibling Survival Data: A Reappraisal of Selection Biases.
 Demography, 50(1), 207–228. doi:10.1007/s13524-012-0149-1
+
+[6] Samuel L. Brilleman, Eren M. Elci, Jacqueline Buros Novik,Rory Wolfe.(2020). Bayesian Survival Analysis Using the rstanarm R
+Package. doi:arXiv:2002.09633v1 
+
+[7] Aki Vehtari, Andrew Gelman, Jonah Gabry. (2016).Practical Bayesian model evaluation using leave-one-out cross-validation and
+WAIC.http://www.stat.columbia.edu/~gelman/research/
+unpublished/loo_stan.pdf
+
+[8] Aki Vehtari. (2022). Cross-validation FAQ.
+https://avehtari.github.io/modelselection/CV-FAQ.html
