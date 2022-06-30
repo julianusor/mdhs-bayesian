@@ -7,37 +7,37 @@ library(Rcpp)
 library(rstanarm)
 library(bayesplot)
 library(cowplot)
-#save.image("~/Documents/Bayesiana/FinalProjectBayesian/dat.RData")
 
-data_1 <- read_dhs_surv("data/descomprimir/rwanda-2020.dta", n_max = 400)
-data_2 <- read_dhs_surv("data/descomprimir/malawi-2015-16.dta", n_max = 400)
-data_3 <- read_dhs_surv("data/descomprimir/senegal-2017.dta", n_max = 400)
+# Here we read the datasets we want to compare
+# In this example we only used 3
+# These files are stored in the "data" folder
+# For terms of computation only the first 400 siblings 
+# were used
+
+data_1 <- read_dhs_surv("data/rwanda-2020.dta", n_max = 400)
+data_2 <- read_dhs_surv("data/malawi-2015-16.dta", n_max = 400)
+data_3 <- read_dhs_surv("data/senegal-2017.dta", n_max = 400)
+
+# A column of countries name is created to identify 
+# data before merge
 
 data_1$country <- "rw"
 data_2$country <- "ma"
 data_3$country <- "se"
+
+# The three dataframes are merged into a 
+# single one (data_siblings)
 
 data_siblings <- bind_rows(data_1, data_2)
 data_siblings <- bind_rows(data_siblings, data_3)
 data_siblings <- bind_rows(data_siblings, data_4)
 rm(data_1, data_2, data_3)
 
+# FILTER START --OPTIONAL--
 
-
-# Los datos vienen en el formato 
-# 0 = hermano muerto
-# 1 = hermano vivo
-# al usar la function queda alreves
-# 0 = vivo (censurado)
-# 1 = muerto
-
-
-
-
-# born from 1960 to 1980
-
+# In this example: people born from year 1960 to 1980
 year <- 1960
-n <- 20
+n <- 20 # Number of years
 start <- (year - 1900) * 12 + 0
 finish <- (year - 1900) * 12 + 12 * n
 
@@ -49,20 +49,23 @@ data_siblings <- data_siblings[condition, ]
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
 
-# ceros a 0.1
+# FILTER END --OPTIONAL--
+
+# "0" survival times to are transformed to 0.1
 data_siblings <- data_siblings %>%
   mutate(death_time = if_else(death_time == 0, 0.1, death_time))
 
-# =========== modelo 1.
-qlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
-qlist <- as.vector(qlist)
+# --Models--
+
+knotlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
+knotlist <- as.vector(knotlist)
 
 mod_spline <-
   stan_surv(
     formula = Surv(death_time, survival_status) ~ sex + country,
     data = data_siblings,
     basehaz = "ms" ,
-    basehaz_ops = list(degree = 3, knots = qlist),
+    basehaz_ops = list(degree = 3, knots = knotlist),
     iter = 2000
   )
 
@@ -79,24 +82,21 @@ mod_weibull <-
     data = data_siblings,
     basehaz = "weibull"
   )
+# This is used to see the trained model coefficients
+summary(mod_spline, digits = 5)
 
-summary(mod_spline, digits = 3)
-summary(mod2, digits = 3)
-
-#comparar
+# This is used to compare models
 loo_compare(loo(mod_spline), loo(mod_exp), loo(mod_weibull))
 
-# estos modelos no son tan suaves comparados al modelo no parametrico
-
+# This is used to compare survival functions for each group
+# M-Spline Model
 p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")), main= "rwandan men")
 p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")), main = "rwandan women")
 p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")), main = "Senegalese men")
 p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")), main = "Senegalese women")
 p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")), main= "Malawian men")
 p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")), main= "Malawian women")
-# p7=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "co")))
-# p8=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "co")))
- 
+
 
 plot_grid(p1,
           p2,
@@ -112,15 +112,14 @@ plot_grid(p5,
           p6,
           ncol = 2)
 
-# exp
-p1=plot(posterior_survfit(mod2, newdata=data.frame(sex="1", country = "rw")))
-p2=plot(posterior_survfit(mod2, newdata=data.frame(sex="2", country = "rw")))
-p3=plot(posterior_survfit(mod2, newdata=data.frame(sex="1", country = "se")))
-p4=plot(posterior_survfit(mod2, newdata=data.frame(sex="2", country = "se")))
-p5=plot(posterior_survfit(mod2, newdata=data.frame(sex="1", country = "ma")))
-p6=plot(posterior_survfit(mod2, newdata=data.frame(sex="2", country = "ma")))
-p7=plot(posterior_survfit(mod2, newdata=data.frame(sex="1", country = "co")))
-p8=plot(posterior_survfit(mod2, newdata=data.frame(sex="2", country = "co")))
+# This is used to compare survival functions for each group
+# Exponential Model
+p1=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="1", country = "rw")))
+p2=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="2", country = "rw")))
+p3=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="1", country = "se")))
+p4=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="2", country = "se")))
+p5=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="1", country = "ma")))
+p6=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="2", country = "ma")))
 
 plot_grid(p1,
           p2,
@@ -132,19 +131,9 @@ plot_grid(p1,
           p8,
           ncol = 2)
 
-# weibull
-plot_grid(p1,
-          p2,
-          p3,
-          p4,
-          p5,
-          p6,
-          p7, 
-          p8,
-          ncol = 2)
 
-
-# exp
+# This is used to compare survival functions for each group
+# Weibull Model
 p1=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="1", country = "rw")))
 p2=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="2", country = "rw")))
 p3=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="1", country = "se")))
