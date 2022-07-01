@@ -1,4 +1,7 @@
-# Leer datos
+# If you don't want to run everything from 0 see the file
+# example.R, where a pre-trained model is used
+
+# Read data
 source("functions/read_dhs.R")
 library(mortDHS)
 library(haven)
@@ -82,7 +85,7 @@ mod_weibull <-
     data = data_siblings,
     basehaz = "weibull"
   )
-# This is used to see the trained model coefficients
+# This is used to print the trained model coefficients
 summary(mod_spline, digits = 5)
 
 # This is used to compare models
@@ -90,26 +93,16 @@ loo_compare(loo(mod_spline), loo(mod_exp), loo(mod_weibull))
 
 # This is used to compare survival functions for each group
 # M-Spline Model
-p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")), main= "rwandan men")
-p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")), main = "rwandan women")
-p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")), main = "Senegalese men")
-p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")), main = "Senegalese women")
-p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")), main= "Malawian men")
-p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")), main= "Malawian women")
+p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")))
+p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")))
+p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")))
+p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")))
+p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")))
+p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")))
 
-
-plot_grid(p1,
-          p2,
-          ncol = 2)
-
-
-plot_grid(p3,
-          p4,
-          ncol = 2)
-
-
-plot_grid(p5,
-          p6,
+plot_grid(p1,p2,
+          p3, p4, 
+          p5, p6,
           ncol = 2)
 
 # This is used to compare survival functions for each group
@@ -121,14 +114,9 @@ p4=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="2", country = "se")))
 p5=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="1", country = "ma")))
 p6=plot(posterior_survfit(mod_exp, newdata=data.frame(sex="2", country = "ma")))
 
-plot_grid(p1,
-          p2,
-          p3,
-          p4,
-          p5,
-          p6,
-          p7, 
-          p8,
+plot_grid(p1,p2,
+          p3, p4, 
+          p5, p6,
           ncol = 2)
 
 
@@ -141,37 +129,32 @@ p4=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="2", country = "se
 p5=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="1", country = "ma")))
 p6=plot(posterior_survfit(mod_weibull, newdata=data.frame(sex="2", country = "ma")))
 
-plot_grid(p1,
-          p2,
-          p3,
-          p4,
-          p5,
-          p6,
+plot_grid(p1,p2,
+          p3, p4, 
+          p5, p6,
           ncol = 2)
 
+# Set custom color to charts
 color_scheme_set("red")
 
-plot(mod1, plotfun = "basehaz")
+# Plot the hazard base
+plot(mod_spline, plotfun = "basehaz")
 
-prior_summary(mod1) #-> prioris
+# Print the prior summary
+prior_summary(mod_spline) 
 
-# area para coeficientes de splines
-mcmc_areas(mod1, regex_pars = "m-sp*", prob = 0.90, prob_outer = 0.95)
+# Probability areas given to splines
+mcmc_areas(mod_spline, regex_pars = "m-sp*", prob = 0.90, prob_outer = 0.95)
 
-# area para todos
-mcmc_areas(mod1, regex_pars = "(Intercept)|country*", prob = 0.90, prob_outer = 0.95)
-# como sex2 tiene un valor negativo pero cerca de 0 significa que las mujeres 
-# tienen una mortalidad mayor (la curva decrece mas rapido)
-# pero el grafico de abajo me contradice
+# Probability areas 
+mcmc_areas(mod_spline, regex_pars = "(Intercept)|country*", prob = 0.90, prob_outer = 0.95)
 
-# pag 18
-#"pag 24"
-
-nd1 <- data.frame(sex = "1", country = c("rw", "ma", "se", "co"))
-nd2 <- data.frame(sex = "2", country = c("rw", "ma", "se", "co"))
+# This is used to compare mortalities between
+nd1 <- data.frame(sex = "1", country = c("rw", "ma", "se"))
+nd2 <- data.frame(sex = "2", country = c("rw", "ma", "se"))
 
 posterior_survfit(
-  mod1,
+  mod_spline,
   newdata = nd1,
   times = 0,
   prob = 0.95,
@@ -179,7 +162,7 @@ posterior_survfit(
 ) -> pf1
 
 posterior_survfit(
-  mod1,
+  mod_spline,
   newdata = nd2,
   times = 0,
   prob = 0.95,
@@ -193,7 +176,7 @@ plot(pf1)
 
 nd <- data.frame(sex = c("1", "2"), age_group = "mayor")
 posterior_survfit(
-  mod1,
+  mod_spline,
   newdata = nd,
   times = 0,
   last_time = 100,
@@ -203,95 +186,32 @@ posterior_survfit(
 
 plot(pf1)
 
-posterior_survfit(
-  mod1,
-  newdata = nd,
-  condition =  FALSE,
-  extrapolate = FALSE,
-  times = 200,
-  prob = 0.95
-)
 
-# rhat
-plot(mod1, "rhat")
+# The next plots are used to evaluate MCMC convergence  
 
-#_________
+# Rhat
+plot(mod_spline, "rhat")
 
-# Autocorrelation para todos menos m-spline
-plot(mod1, "acf", pars = "(Intercept)", regex_pars = "sex*", ylim = c(0, 0.1))
+# Autocorrelation chart for all coefficients except spline ones
+plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "sex*|country*", ylim = c(0, 0.1))
 
-# Autocorrelation para todos m-spline
-plot(mod1, "acf", pars = "(Intercept)", regex_pars = "m-spl*")
+# Autocorrelation chart for all splines coefficients
+plot(mod_spline, "acf", pars = "(Intercept)", regex_pars = "m-spl*")
 
-# Traceplot para los 4
-plot(mod1, "trace")
+# Traceplot
+plot(mod_spline, "trace")
 
-##
+# KM vs our model
 ps_check(mod_spline)
 
-##Comparación de modelos 
-loo(mod1)
-loo(mod2)
-loo(mod3)
-waic(mod1)
-waic(mod2)
-waic(mod3)
+## Model comparision
+loo(mod_spline)
+loo(mod_weibull)
+loo(mod_exp)
+waic(mod_spline)
+waic(mod_weibull)
+waic(mod_exp)
 
-
-compare_models(loo(mod1),
-               loo(mod2))
-
-
-
-
-p1=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="menor", country = "rw")))
-p2=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="menor", country = "ml")))
-p3=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="menor", country = "rw")))
-p4=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="menor", country = "ml")))
-
-p5=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="mayor", country = "rw")))
-p6=plot(posterior_survfit(mod1, newdata=data.frame(sex="1", age_group="mayor", country = "ml")))
-p7=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="mayor", country = "rw")))
-p8=plot(posterior_survfit(mod1, newdata=data.frame(sex="2", age_group="mayor", country = "ml")))
-
-library(cowplot)
-p_combined2 <- plot_grid(p1,
-                        p2,
-                        p3,
-                        p4,
-                        p5,
-                        p6,
-                        p7,
-                        p8,
-                        ncol = 2)
-p_combined2
-
-
-
-
-ps2 <- posterior_survfit(mod_spline, type="surv", standardise = FALSE, times = 0,
-                         control = list(epoints = 20))
-plot(ps2)
-
-# Para la presentación
-# a prioris y modelo bien definidos
-# mostrar la base de datos y su formato
-# tablas en latex 
-# explicar la supervivencia
-
-
-### coxph
-library("survival")
-library("survminer")
-
-# para la funcion Surv 
-# survival status = 0 vivo
-# survival status = 1 muerto
-res.cox <- coxph(Surv(death_time, survival_status) ~ sex + country, data =  data_siblings)
-
-
-summary(res.cox)
-
-
-
-
+compare_models(loo(mod_spline),
+               loo(mod_weibull),
+               loo(mod_exp))
