@@ -22,9 +22,15 @@ library(bayesplot)
 library(cowplot)
 library(huxtable)
 color_scheme_set("red")
-load(file = "../modelos.RData") # ruta a modelos.rdata
-load("~/GitHub/FinalProjectBayesian/.RData")
-load("~/GitHub/FinalProjectBayesian/modelos.RData")
+load(file = "../data/modelos.RData") # ruta a modelos.rdata
+
+p1=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "rw")))
+p2=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "rw")))
+p3=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "se")))
+p4=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "se")))
+p5=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="1", country = "ma")))
+p6=plot(posterior_survfit(mod_spline, newdata=data.frame(sex="2", country = "ma")))
+
 ```
 
 ## Abstract
