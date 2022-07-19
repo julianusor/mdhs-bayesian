@@ -33,7 +33,7 @@ data_3$country <- "se"
 
 data_siblings <- bind_rows(data_1, data_2)
 data_siblings <- bind_rows(data_siblings, data_3)
-data_siblings <- bind_rows(data_siblings, data_4)
+
 rm(data_1, data_2, data_3)
 
 # FILTER START --OPTIONAL--
@@ -49,16 +49,21 @@ condition <-
   (data_siblings$birth_cmc > start)
 data_siblings <- data_siblings[condition, ]
 
+# FILTER END --OPTIONAL--
+
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
-
-# FILTER END --OPTIONAL--
 
 # "0" survival times to are transformed to 0.1
 data_siblings <- data_siblings %>%
   mutate(death_time = if_else(death_time == 0, 0.1, death_time))
 
 # --Models--
+
+# knot position can be changed to try to have the best fit possible
+# the package places two knots by default 
+# a value close to 0 means that knot is not useful 
+# (the survival function is almost flat at that point)
 
 knotlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
 knotlist <- as.vector(knotlist)

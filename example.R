@@ -1,10 +1,13 @@
 # This file is used to demonstrate the package and see the 
 # spline model properties and results used a pre-trained model
 
-# load the model
+# load the model (select just one)
 # this model was filtered and contains only people born from
 # year 1960 to 1980, as seen in the main.R script
 load("data/spline-model.RData")
+
+# this is the full model
+# load("data/spline-model-full.RData")
 
 # This is used to print the trained model coefficients
 summary(mod_spline, digits = 5)
@@ -39,17 +42,19 @@ ps_check(mod_spline)
 mcmc_areas(mod_spline, regex_pars = "(Intercept)|country*|sex*", prob = 0.90, prob_outer = 0.95)
 
 
-# Compare mortalities using the posterior
+# Comparing mortalities using the posterior
+
 nd1 <- data.frame(sex = "1", country = c("rw", "ma", "se"))
-posterior_survfit(
+pf1 <- posterior_survfit(
   mod_spline,
   newdata = nd1,
   times = 0,
   prob = 0.95,
   extrapolate = TRUE
-) -> pf1
+) 
 
 pf1 %>% filter(time < 10*12 & time > 9.5*12)
+# result: 
 # id cond_time     time median  ci_lb  ci_ub
 # 1        NA 115.3939 0.8757 0.8584 0.8924
 # 2        NA 115.3939 0.8821 0.8666 0.8962
@@ -64,25 +69,26 @@ pf1 %>% filter(time < 10*12 & time > 9.5*12)
 # as we suspected early with the coefficient areas
 # the Senegal kids have the lowest mortality
 
-# Compare woman from Senegal with man from Rwanda with ages 18
+
+# Comparing woman from Senegal with man from Rwanda with ages 18
 
 nd1 <- data.frame(sex = "1", country = "rw")
-posterior_survfit(
+pf1 <- posterior_survfit(
   mod_spline,
   newdata = nd1,
   times = 0,
   prob = 0.95,
   extrapolate = TRUE
-) -> pf1
+) 
 
 nd2 <- data.frame(sex = "2", country = "se")
-posterior_survfit(
+pf2 <- posterior_survfit(
   mod_spline,
   newdata = nd2,
   times = 0,
   prob = 0.95,
   extrapolate = TRUE
-) -> pf2
+)
 
 
 pf1 %>% filter(time < 18*12 & time > 17*12)
