@@ -42,14 +42,12 @@ given country within the set of DHS surveys, a useful model is generated
 to make survival predictions and evaluate the effects associated with
 covariables and, using the posterior distributions, test significance
 and similarities between these covariables, these probabilistic
-interpretations can not be done using non-parametric models as
+interpretations can not be done using non-parametric models such as the
 Kaplan-Meier, which was the first model proposed. Specifically, a
 discrimination is obtained between the differences in the survival of
 each person depending on their sex and country, these predictions are
-made from a Bayesian approach using the **rstanarm** package, which uses
+made with a Bayesian approach using the **rstanarm** package, which uses
 the Stan software to make its estimates.
-
-
 
 ## 1. Introduction
 
@@ -57,11 +55,11 @@ the Stan software to make its estimates.
 
 In our study we were interested in estimating the mortality on African
 countries. These countries sometimes lack of a good and reliable
-registry of deaths and without these estimating mortality rates can be
+registry of deaths and without these, estimating mortality rates can be
 difficult, these rates have prime importance on epidemiological or
-socio-economic studies.
+socioeconomic studies.
 
-In our study we used the survey data provided by DHS, these contain a
+We used the survey data provided by DHS, these contain a
 large number of variables, people were asked about the survival status
 of their siblings so we only include sibling data on our study, we
 assess siblings survival, expecting to derivate from these the mortality
@@ -82,7 +80,7 @@ they have died).
 
 ### 1.3. Data source
 
-The primary data source was the Demographic and Health Surveys (DHS)
+The primary data source was the Demographic and Health Surveys (DHS) 
 Individual Recode (IR) where each row consist of a woman and their
 responses on multiple questions. There were multiple columns but we
 selected the ones related to siblings and their survival status, these
@@ -93,11 +91,10 @@ where:
 -   Sibling survival status (0 = dead, 1 = alive)
 -   Sibling date of death
 -   Sibling country of residency
--   On particular, we only selected the data from countries Malawi,
-    Senegal and Rwanda. But the functions can be extended to any set
-    of countries.
 
-From these we calculated the variable **time**, which has a great
+**On particular, we only selected the data from countries Malawi, Senegal and Rwanda. But the functions can be extended to any set of countries.**
+
+From these we calculated the variable **time**, which has a key
 importance on survival analysis in general.
 
 ## 2. Basic concepts
@@ -121,16 +118,16 @@ functions are defined as follows:
 
 Let $T$ be a random variable denoting the survival time of a unit or
 person. The survival function, which is denoted $S(t)$ gives the
-probability that a unit or person will survives beyond some specific
-time t. i.e,
+**probability that a unit or person will survives beyond some specific
+time t. i.e**,
 
 $$S(t)= P(T>t)$$
 
-The survival function $S(t)$ is fundamental in AS since for different
-values of $t$ provide crucial information of survival data In some
+The survival function $S(t)$ is fundamental in survival analysis since for different
+values of $t$ provide crucial information of survival data. In some
 situations it may be more interest to quantify the risk of failure at a
 given instant than to estimate survival; a function of interest in
-survival analysis that allows do this is the danger function
+survival analysis that allows to do this is the hazard function
 
 The hazard function usually denoted as $h(t)$ or $\lambda(t)$ is given
 by:
@@ -139,7 +136,6 @@ $$ h(t)=\lim_{\Delta t \to 0}\frac{P(t\leq T+\Delta t|T\geq t)}{\Delta t}$$
 The numerator represents the conditional probability of the event
 occurring in an infinitesimal interval $[t,t+\Delta t]$ (as
 $\Delta t\to 0$) given that the unit has survived to $t$ $(T>t)$.
-survived until t (T\>t).
 
 The cumulative hazard is defined as:
 
@@ -150,16 +146,13 @@ between the hazard function, the cumulative hazard and the probability
 of survival, as follows
 
 $$S(t)=exp(-H(t))=exp(-\int_{0}^{t}h(s)ds)$$
+**In our study, we try to predict the the survival function** $S(t)$ **the best as possible** 
 
 ### 2.2. Censorship
 
-An observation in a random variable $T$ is said to be right-censored if
-all that is known about of $T$ is that it is greater than some value c.
-In AS, $T$ refers at the time of occurrence of some particular event and
-a case is considered right-censored if it stops observing before for the
-event to occur[3]. In our work, only the right caesura is presented,
-since at the time of conducting the survey there were people who had not
-yet experienced the event of interest (death).
+In survival analysis, $T$ refers to the time of occurrence of some particular event.
+A case is considered right-censored if the study stops observing the individual before the event occurs[3]. 
+In our work, only the right-censorship is presented since at the time of conducting the survey there were people who had not yet experienced the event of interest (death).
 
 Survival probability can be estimated non-parametrically over temporal
 observations (censored and uncensored) using the Kaplan-Meyer method.
@@ -174,7 +167,7 @@ known as accelerated time to failure (AFT) models.
 
 The main reason to go Bayesian in our study was to be able to make
 inference, in particular, to make easy to interpretative conclusions on
-our parameters and their significance, without the assumptions of
+our parameters and test their significance, without the assumptions of
 frecuentists approaches.
 
 ## 4. Models
@@ -183,7 +176,7 @@ Under this modeling framework, it is proposed to implement a of Bayesian
 Cox proportional hazard to later make a comparison versus the
 frequentest approach and the Kaplan-Meier estimation.
 
-### 4.1. Kaplan--Meier estimator
+### 4.1. Kaplan-Meier estimator
 
 The Kaplan-Meier estimator, also known as the limit product estimator,
 is a nonparametric method for estimating the survival function. survival
@@ -194,19 +187,20 @@ and at risk of an event of interest.
 
 The K-M estimator is defined as
 
-$$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}$$$$para\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
+$$\hat S_{KM}(t)=\prod_{j:t_j\leq t}^{}[1-\frac{d_j}{n_j}]\hspace{2.5mm}$$
+$$for\hspace{2.5mm}t_1\leq t\leq t_k\hspace{2.5mm}y\hspace{2.5mm}d_j=\#faults$$
 
 ### 4.2. Cox proportional hazards model
 
 Under a hazard scale formulation, we model the hazard of the event for
 individual $i$ at time $t$ using the following model:
 
-$$h(t|X_i)=h_0(t)exp(X_i\beta)$$
+$$\lambda(t|X_i)=\lambda_0(t)exp(X_i\beta)$$
 
-Where $h_0$ is called the hazard base, that is, $h_0(t)$ is the risk
-when all $X_i$ variables are 0. $h_0(t)$ characterizes the way in which
+Where $\lambda_0$ is called the hazard base, that is, $\lambda_0(t)$ is the risk
+when all $X_i$ variables are 0. $\lambda_0(t)$ characterizes the way in which
 hazard changes as a function of survival time, while the second term
-characterizes the way the hazard changes as function of the covariates
+characterizes the way the hazard changes as function of the covariables
 at the same time guarantees that this is positive, it is also called the
 linear predictor.
 
@@ -216,7 +210,7 @@ Where $H(t;\vec{x})$ is the cumulative hazard for a subject with
 covariates $\vec{x}=(x_1,x_2,..x_k)$ Assuming survival time is
 continuous
 
-$$H(t;\vec{x})=\int_{0}^{t} h(s;\vec{x})ds=\int_{0}^{t} h_0(s)exp(\beta^T\vec{x})ds$$
+$$H(t;\vec{x})=\int_{0}^{t} \lambda(s;\vec{x})ds=\int_{0}^{t} \lambda_0(s)exp(\beta^T\vec{x})ds$$
 $$=exp(\beta^T\vec{x})\int_{0}^{t} h_0(s)ds=
 exp(\beta^T\vec{x})H_0(T)$$
 
@@ -230,16 +224,9 @@ survival:
 
 $$S(t;\vec{x})=exp(-H(t;\vec{x}))=exp(e^{\beta^T\vec{x}})H_0(t)=$$
 $$[exp(-H_0(t)]^{e^{\beta^T\vec{x}}}=[S_0(t)]^{e^{\beta^T\vec{x}}}$$
-
-Cox model in terms of survival. In this expression $S_0(t)$ is the
-survival baseline.
+In this last expression $S_0(t)$ is known as the survival baseline.
 
 ## 5. Estimation
-
-As we previously seen, the cox proportional hazard model has two parts,
-one is the baseline hazard and the second one is the linear model, for
-the linear model we only choose to estimate each of the $\beta$ using
-normal prios, but for the hazard baseline
 
 ### 5.1. Linear Model
 
@@ -272,25 +259,28 @@ $$
 
 ### 5.2. Baseline Hazard
 
-The *rstanarm* package allows specifying the risk base through different models, in our study we evaluated 3 types, through an exponential model: for scale parameter $\lambda_i(t) = exp(xi(t))$ , $h_i(t)=\lambda_i(t)$, Weibull model: for scale parameter $\lambda_i(t) = exp(xi(t))$ and shape parameter $\gamma>0$, $h_i(t)=\gamma t^{\gamma -1}\lambda _i(t)$. however, after making a selection of models we opted to work with the M-splines model
+The *rstanarm* package allows specifying the risk base through different models, in our study we evaluated 3 types, through an exponential, Weibull and splines models.
 
+Exponential: $\lambda_i(t) = exp(xi(t))$. 
+Weibull model: for scale parameter $\lambda_i(t) = exp(xi(t))$ and shape parameter $\gamma>0$, $h_i(t)=\gamma t^{\gamma -1}\lambda _i(t)$. However, after making a selection of models we opted to work with the M-splines model.
 
 In our study we used an M-Spline model to approximate the hazard
 baseline function $h_0$, this approximation consists of $\gamma_l$
 coefficients multiplied by each component of the spline, function
-calculated inside by the package **splines2**.
+calculated by the package **splines2**.
 
-So the hazard of dying for the individual $i$ at time $t$ is given by:$$
+So the **hazard of dying** for the individual $i$ at time $t$ is given by:
+$$
 h_i(t) = \mathrm{exp}(\beta \cdot X_i)\ast\sum_{l = 1}^{L}\gamma_l \text{M}_l(t \ | \ k, \delta) 
-$$Where $k = \{k_1, ... ,k_J\}$ is a set of knots given by the user, we
+$$
+Where $k = \{k_1, ... ,k_J\}$ is a set of knots given by the user, we
 observed that a decent number of knots is around 6 (including the 2
 boundary knots, $k_1$ located at the earliest entry time and $k_J$,
 located at the lastest event), this number of knots prevents that our
 model is too overfitting, We will leave the default degree of the
 splines $\delta$ at $3$.
 
-The package **rstanarm** handles the calculation and sets a Dirichlet
-prior with concentration parameter of 1, ensuring an non-informative
+The package **rstanarm** handles the calculation and sets a **Dirichlet prior with concentration parameter of 1**, ensuring an non-informative
 prior.
 
 ## 6. Model Selection
@@ -303,7 +293,7 @@ systematically omitted determines the predictive task in which the
 cross-validation evaluates the performance of the model, the
 computational method implemented is Pareto-smoothed importance sampling.
 
-the Pareto- $\hat{k}$ diagnostic estimates how far an individual
+The Pareto- $\hat{k}$ diagnostic estimates how far an individual
 leave-one-out distribution is from the full distribution. If leaving out
 an observation changes the posterior too much then importance sampling
 is not able to give reliable estimate. If $\hat{k}<0.5$, then the
