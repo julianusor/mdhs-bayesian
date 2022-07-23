@@ -3,11 +3,19 @@
 
 # Read data
 source("functions/read_dhs.R")
+
+
+# the library "mortDHS" and "rstanarm" are required and they need to be downloaded as follow
+
+#library(devtools)
+#install_github("kendavidn/mortDHS") 
+#install_github("stan-dev/rstanarm", ref = "feature/survival", build_vignettes = FALSE) 
 library(mortDHS)
+library(rstanarm)
+
 library(haven)
 library(tidyverse)
 library(Rcpp)
-library(rstanarm)
 library(bayesplot)
 library(cowplot)
 
