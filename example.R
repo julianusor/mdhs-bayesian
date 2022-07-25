@@ -5,7 +5,6 @@
 # this model was filtered and contains only people born from
 # year 1960 to 1980, as seen in the main.R script
 load("data/spline-model.RData")
-
 # this is the full model
 # load("data/spline-model-full.RData")
 

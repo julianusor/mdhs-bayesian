@@ -49,8 +49,8 @@ rm(data_1, data_2, data_3)
 # In this example: people born from year 1960 to 1980
 year <- 1960
 n <- 20 # Number of years
-start <- (year - 1900) * 12 + 0
-finish <- (year - 1900) * 12 + 12 * n
+start <- (year - 1900) * 12 
+finish <- (year - 1900) * 12 + (12 * n)
 
 condition <-
   (data_siblings$birth_cmc < finish) &
@@ -59,6 +59,7 @@ data_siblings <- data_siblings[condition, ]
 
 # FILTER END --OPTIONAL--
 
+# Convert category column to factors
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
 
