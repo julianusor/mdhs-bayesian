@@ -15,7 +15,6 @@ library(rstanarm)
 
 library(haven)
 library(tidyverse)
-library(Rcpp)
 library(bayesplot)
 library(cowplot)
 
@@ -25,7 +24,11 @@ library(cowplot)
 # For terms of computation only the first 400 siblings 
 # were used
 
+# todo: try to append two sources
+data_1 <- read_dhs_surv("data/rwanda-2015.dta", n_max = 400)
 data_1 <- read_dhs_surv("data/rwanda-2020.dta", n_max = 400)
+# 1900 + (max(data_1$death_cmc[!is.na(data_1$death_cmc)])/12)
+
 data_2 <- read_dhs_surv("data/malawi-2015-16.dta", n_max = 400)
 data_3 <- read_dhs_surv("data/senegal-2017.dta", n_max = 400)
 
@@ -62,10 +65,6 @@ data_siblings <- data_siblings[condition, ]
 # Convert category column to factors
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
-
-# "0" survival times to are transformed to 0.1
-data_siblings <- data_siblings %>%
-  mutate(death_time = if_else(death_time == 0, 0.1, death_time))
 
 # --Models--
 

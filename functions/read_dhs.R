@@ -9,7 +9,7 @@ read_dhs_surv <- function(path, n_max = FALSE, surv_cols = TRUE) {
   
   # Obtain the format sibling-per-row for the columns mm1, mm2, mm4, etc...
   data_siblings <-
-    mortDHS_reshape(data = data, sib_cols = c(1, 2, 4, 7, 8, 9, 11, 16))
+    mortDHS_reshape(data = data, sib_cols = c(1, 2, 4, 7, 8, 9, 11))
   
   # Add new columns
   columns_to_add <- c("caseid", "v008")
@@ -22,7 +22,9 @@ read_dhs_surv <- function(path, n_max = FALSE, surv_cols = TRUE) {
   # Separate caseid into three columns
   data_siblings$caseid <-
     gsub("( )+(?!\\d)", "", data_siblings$caseid, perl = T)
+  
   data_siblings$caseid <- str_sub(data_siblings$caseid, 2,-1)
+  
   data_siblings <-
     separate(
       data = data_siblings,
@@ -37,7 +39,7 @@ read_dhs_surv <- function(path, n_max = FALSE, surv_cols = TRUE) {
   
   # Make distinction by columns mm1, mm2, ...
   data_siblings <-
-    data_siblings %>% group_by(cluster, household) %>% distinct(mm1, mm2, mm4, mm8, mm9, mm16, n_siblings, v008)
+    data_siblings %>% group_by(cluster, household) %>% distinct(mm1, mm2, mm4, mm8, mm9, n_siblings, v008)
   
   # Remove the column number of siblings
   data_siblings <- select(data_siblings,-n_siblings)
@@ -56,26 +58,25 @@ read_dhs_surv <- function(path, n_max = FALSE, surv_cols = TRUE) {
   )
   
   if (surv_cols) {
-    # death_time y quitar death_cmc
-    # Tiempo de muerte para los que murieron
+    # Death time of the people who died
     data_siblings <- data_siblings %>%
-      mutate(death_time = death_cmc - birth_cmc) #%>%
-    #select(-(death_cmc))
+      mutate(death_time = death_cmc - birth_cmc)
     
-    # agregar death_time pero para censura
-    # Tiempo de censura = fecha de entrevista - fecha de nacimiento
-    # Si survival_status == 1 significa no muerto (indicador de censura)
+    # Add death_time but for censored rows
+    # Time of censorship = Interview Date - Born Date
+    # survival_status == 1 means not dead (censorship indicator)
     data_siblings[data_siblings$survival_status == 1, ]$death_time <-
       data_siblings[data_siblings$survival_status == 1, ]$interview_cmc -
       data_siblings[data_siblings$survival_status == 1, ]$birth_cmc
     
-    # cambiar survival_status de 0 = muerto a 1 = muerto
+    # Change survival_status from 0 = death to 1 = death
     data_siblings$survival_status <-
       as.integer(!data_siblings$survival_status)
     
-    
+    # "0" survival times to are transformed to 0.1
     data_siblings <- data_siblings %>%
       mutate(death_time = if_else(death_time == 0, 0.1, death_time))
+    
   }
   
   data_siblings
