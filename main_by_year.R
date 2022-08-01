@@ -24,9 +24,27 @@ library(cowplot)
 # For terms of computation only the first 400 siblings 
 # were used
 
-# todo: try to append two sources
-data_1 <- read_dhs_surv("data/rwanda-2015.dta", n_max = 400)
-#data_2 <- read_dhs_surv("data/rwanda-2020.dta", n_max = 400)
+#Cameroon 2018 	Standard DHS 	DHS-VII
+#Guinea 2018 	Standard DHS 	DHS-VII
+#Mali 2018 	Standard DHS 	DHS-VII
+#Nigeria 2018 	Standard DHS 	DHS-VII
+#Senegal 2017 	Continuous DHS 	DHS-VII
+#Sierra Leone 2019 	Standard DHS 	DHS-VII
+#Zambia 2018 	Standard DHS 	DHS-VII
+#Rwanda 2019-20 	Standard DHS 	DHS-VIII
+
+# to request: 
+#Gambia 2019-20
+# benin
+#Liberia 2019-20 
+#Mauritania 2019-21
+
+# 2018
+# 2017
+# 2016 
+
+data_1 <- read_dhs_surv("data/rwanda-2020.dta")
+data_1 %>% filter()
 
 temp <- left_join(data_1, data_2, by = c("cluster" = "cluster", "household" = "household"))
 
