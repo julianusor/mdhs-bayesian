@@ -24,68 +24,71 @@ library(cowplot)
 # For terms of computation only the first 400 siblings 
 # were used
 
-#Cameroon 2018 	Standard DHS 	DHS-VII
-#Guinea 2018 	Standard DHS 	DHS-VII
-#Mali 2018 	Standard DHS 	DHS-VII
-#Nigeria 2018 	Standard DHS 	DHS-VII
-#Senegal 2017 	Continuous DHS 	DHS-VII
-#Sierra Leone 2019 	Standard DHS 	DHS-VII
-#Zambia 2018 	Standard DHS 	DHS-VII
-#Rwanda 2019-20 	Standard DHS 	DHS-VIII
+#Cameroon 2018 	Standard DHS 	DHS-VII     c
+#Guinea 2018 	Standard DHS 	DHS-VII           x
+#Mali 2018 	Standard DHS 	DHS-VII             x
+#Nigeria 2018 	Standard DHS 	DHS-VII     c
+#Senegal 2017 	Continuous DHS 	DHS-VII   
+#Sierra Leone 2019 	Standard DHS 	DHS-VII     x
+#Zambia 2018 	Standard DHS 	DHS-VII       c
+#Rwanda 2019-20 	Standard DHS 	DHS-VIII      x
+#Gambia 2019-20           
+# benin 2017-18         x
+# Liberia 2019-20       x
+# Mauritania 2019-21    
 
-# to request: 
-#Gambia 2019-20
-# benin
-#Liberia 2019-20 
-#Mauritania 2019-21
+set.seed(2022)
 
-# 2018
-# 2017
-# 2016 
+data_1 <- read_dhs_surv("data/rwanda-2019-20.dta")
+s <- sample(1:(nrow(data_1)), 2000)
+data_1 <- data_1[s, ]
 
-data_1 <- read_dhs_surv("data/rwanda-2020.dta")
-data_1 %>% filter()
+data_2 <- read_dhs_surv("data/benin-2017-18.dta")
+s <- sample(1:(nrow(data_2)), 2000)
+data_2 <- data_2[s, ]
 
-temp <- left_join(data_1, data_2, by = c("cluster" = "cluster", "household" = "household"))
+data_3 <- read_dhs_surv("data/sierra-leone-2019.dta")
+s <- sample(1:(nrow(data_3)), 2000)
+data_3 <- data_3[s, ]
 
-nrow(data_1) + nrow(data_2)  
-# 1900 + (max(data_1$death_cmc[!is.na(data_1$death_cmc)])/12)
+data_4 <- read_dhs_surv("data/mali-2018.dta")
+s <- sample(1:(nrow(data_4)), 2000)
+data_4 <- data_4[s, ]
 
-data_2 <- read_dhs_surv("data/malawi-2015-16.dta", n_max = 400)
-data_3 <- read_dhs_surv("data/senegal-2017.dta", n_max = 400)
+data_5 <- read_dhs_surv("data/liberia-2019-20.dta")
+s <- sample(1:(nrow(data_5)), 2000)
+data_5 <- data_5[s, ]
+
+
+#
+
+##
+# countries_data is saved here (5 countries 2000 rows each)
+##
+
+data_1 <- data_filter_year_surv(data_1, year = 2018)
+data_2 <- data_filter_year_surv(data_2, year = 2018)
+data_3 <- data_filter_year_surv(data_3, year = 2018)
+data_4 <- data_filter_year_surv(data_4, year = 2018)
+data_5 <- data_filter_year_surv(data_5, year = 2018)
 
 # A column of countries name is created to identify 
 # data before merge
-#rsthemes::install_rsthemes()
-#rsthemes::install_rsthemes(include_base16 = TRUE)
-#rsthemes::try_rsthemes("dark")
 
-data_1$country <- "rw"
-data_2$country <- "ma"
-data_3$country <- "se"
+data_1$country <- "rwa"
+data_2$country <- "ben"
+data_3$country <- "sle"
+data_4$country <- "mli"
+data_5$country <- "lbr"
 
-# The three dataframes are merged into a 
-# single one (data_siblings)
+# The dataframes are merged into a single one (data_siblings)
 
 data_siblings <- bind_rows(data_1, data_2)
 data_siblings <- bind_rows(data_siblings, data_3)
+data_siblings <- bind_rows(data_siblings, data_4)
+data_siblings <- bind_rows(data_siblings, data_5)
 
-rm(data_1, data_2, data_3)
-
-# FILTER START --OPTIONAL--
-
-# In this example: people born from year 1960 to 1980
-year <- 1960
-n <- 20 # Number of years
-start <- (year - 1900) * 12 
-finish <- (year - 1900) * 12 + (12 * n)
-
-condition <-
-  (data_siblings$birth_cmc < finish) &
-  (data_siblings$birth_cmc > start)
-data_siblings <- data_siblings[condition, ]
-
-# FILTER END --OPTIONAL--
+rm(data_1, data_2, data_3, data_4, data_5)
 
 # Convert category column to factors
 data_siblings$sex <- data_siblings$sex %>% as.factor()

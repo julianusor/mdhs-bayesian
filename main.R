@@ -24,23 +24,12 @@ library(cowplot)
 # For terms of computation only the first 400 siblings 
 # were used
 
-# todo: try to append two sources
 data_1 <- read_dhs_surv("data/rwanda-2015.dta", n_max = 400)
-#data_2 <- read_dhs_surv("data/rwanda-2020.dta", n_max = 400)
-
-temp <- left_join(data_1, data_2, by = c("cluster" = "cluster", "household" = "household"))
-
-nrow(data_1) + nrow(data_2)  
-# 1900 + (max(data_1$death_cmc[!is.na(data_1$death_cmc)])/12)
-
 data_2 <- read_dhs_surv("data/malawi-2015-16.dta", n_max = 400)
 data_3 <- read_dhs_surv("data/senegal-2017.dta", n_max = 400)
 
 # A column of countries name is created to identify 
 # data before merge
-#rsthemes::install_rsthemes()
-#rsthemes::install_rsthemes(include_base16 = TRUE)
-#rsthemes::try_rsthemes("dark")
 
 data_1$country <- "rw"
 data_2$country <- "ma"
