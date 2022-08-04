@@ -88,13 +88,13 @@ date_to_cmc <- function(year = 2000, month = 1) {
 
 data_filter_year_surv <- function(df, year = 2010) {
   df %>% filter((
-    death_cmc <= date_to_cmc(year = year, month = 12)
+    death_cmc < date_to_cmc(year = year, month = 12)
     &
-      birth_cmc <= date_to_cmc(year = year, month = 12)
+      birth_cmc < date_to_cmc(year = year, month = 12)
   ) |
     (
       is.na(death_cmc) &
-        birth_cmc <= date_to_cmc(year = year, month = 12)
+        birth_cmc < date_to_cmc(year = year, month = 12)
     )
   )
   

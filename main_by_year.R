@@ -24,20 +24,9 @@ library(cowplot)
 # For terms of computation only the first 400 siblings 
 # were used
 
-#Cameroon 2018 	Standard DHS 	DHS-VII     c
-#Guinea 2018 	Standard DHS 	DHS-VII           x
-#Mali 2018 	Standard DHS 	DHS-VII             x
-#Nigeria 2018 	Standard DHS 	DHS-VII     c
-#Senegal 2017 	Continuous DHS 	DHS-VII   
-#Sierra Leone 2019 	Standard DHS 	DHS-VII     x
-#Zambia 2018 	Standard DHS 	DHS-VII       c
-#Rwanda 2019-20 	Standard DHS 	DHS-VIII      x
-#Gambia 2019-20           
-# benin 2017-18         x
-# Liberia 2019-20       x
-# Mauritania 2019-21    
-
-set.seed(2022)
+# This is repeated for each country
+# =============================
+set.seed(2016)
 
 data_1 <- read_dhs_surv("data/rwanda-2019-20.dta")
 s <- sample(1:(nrow(data_1)), 2000)
@@ -60,17 +49,15 @@ s <- sample(1:(nrow(data_5)), 2000)
 data_5 <- data_5[s, ]
 
 
-#
-
 ##
 # countries_data is saved here (5 countries 2000 rows each)
 ##
-
-data_1 <- data_filter_year_surv(data_1, year = 2018)
-data_2 <- data_filter_year_surv(data_2, year = 2018)
-data_3 <- data_filter_year_surv(data_3, year = 2018)
-data_4 <- data_filter_year_surv(data_4, year = 2018)
-data_5 <- data_filter_year_surv(data_5, year = 2018)
+year_filter <- 2016
+data_1 <- data_filter_year_surv(data_1, year = year_filter)
+data_2 <- data_filter_year_surv(data_2, year = year_filter)
+data_3 <- data_filter_year_surv(data_3, year = year_filter)
+data_4 <- data_filter_year_surv(data_4, year = year_filter)
+data_5 <- data_filter_year_surv(data_5, year = year_filter)
 
 # A column of countries name is created to identify 
 # data before merge
@@ -94,6 +81,12 @@ rm(data_1, data_2, data_3, data_4, data_5)
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
 
+
+data_siblings <- data_siblings %>% mutate(death_time = case_when(
+  survival_status == 0 ~ date_to_cmc(year = year_filter, month = 12) - birth_cmc,
+  TRUE ~ death_time
+))
+
 # --Models--
 
 # knot position can be changed to try to have the best fit possible
@@ -113,19 +106,6 @@ mod_spline <-
     iter = 2000
   )
 
-mod_exp <-
-  stan_surv(
-    formula = Surv(death_time, survival_status) ~ sex + country,
-    data = data_siblings,
-    basehaz = "exp"
-  )
-
-mod_weibull <-
-  stan_surv(
-    formula = Surv(death_time, survival_status) ~ sex + country,
-    data = data_siblings,
-    basehaz = "weibull"
-  )
 # This is used to print the trained model coefficients
 summary(mod_spline, digits = 5)
 
@@ -188,7 +168,7 @@ prior_summary(mod_spline)
 mcmc_areas(mod_spline, regex_pars = "m-sp*", prob = 0.90, prob_outer = 0.95)
 
 # Probability areas 
-mcmc_areas(mod_spline, regex_pars = "(Intercept)|country*", prob = 0.90, prob_outer = 0.95)
+mcmc_areas(mod_spline, regex_pars = "(Intercept)|country|sex*", prob = 0.90, prob_outer = 0.95)
 
 # This is used to compare mortalities between
 nd1 <- data.frame(sex = "1", country = c("rw", "ma", "se"))
