@@ -19,50 +19,41 @@ library(bayesplot)
 library(cowplot)
 
 # Here we read the datasets we want to compare
-# In this example we only used 3
+# In this example we only used 5
 # These files are stored in the "data" folder
-# For terms of computation only the first 400 siblings 
-# were used
+# For terms of computation only the first 2000 siblings 
+# were used, this can be changed.
 
-# This is repeated for each country
-# =============================
-set.seed(2016)
+# 5 dataframes are loaded inside "full_data.RData" so 
 
-data_1 <- read_dhs_surv("data/rwanda-2019-20.dta")
-s <- sample(1:(nrow(data_1)), 2000)
-data_1 <- data_1[s, ]
+load("data/full_data.RData")
 
-data_2 <- read_dhs_surv("data/benin-2017-18.dta")
-s <- sample(1:(nrow(data_2)), 2000)
-data_2 <- data_2[s, ]
+# is used instead of ...
+#data_1 <- read_dhs_surv("data/rwanda-2019-20.dta")
+#data_2 <- read_dhs_surv("data/benin-2017-18.dta")
+#data_3 <- read_dhs_surv("data/sierra-leone-2019.dta")
+#data_4 <- read_dhs_surv("data/mali-2018.dta")
+#data_5 <- read_dhs_surv("data/liberia-2019-20.dta")
 
-data_3 <- read_dhs_surv("data/sierra-leone-2019.dta")
-s <- sample(1:(nrow(data_3)), 2000)
-data_3 <- data_3[s, ]
+year_filter <- 2015
+set.seed(year_filter)
+data_1 <- data_1[sample(1:(nrow(data_1)), 2000), ]
+data_2 <- data_2[sample(1:(nrow(data_2)), 2000), ]
+data_3 <- data_3[sample(1:(nrow(data_3)), 2000), ]
+data_4 <- data_4[sample(1:(nrow(data_4)), 2000), ]
+data_5 <- data_5[sample(1:(nrow(data_5)), 2000), ]
 
-data_4 <- read_dhs_surv("data/mali-2018.dta")
-s <- sample(1:(nrow(data_4)), 2000)
-data_4 <- data_4[s, ]
+# censorship and filtering by selected year
 
-data_5 <- read_dhs_surv("data/liberia-2019-20.dta")
-s <- sample(1:(nrow(data_5)), 2000)
-data_5 <- data_5[s, ]
-
-
-##
-# countries_data is saved here (5 countries 2000 rows each)
-##
-year_filter <- 2016
 data_1 <- data_filter_year_surv(data_1, year = year_filter)
 data_2 <- data_filter_year_surv(data_2, year = year_filter)
 data_3 <- data_filter_year_surv(data_3, year = year_filter)
 data_4 <- data_filter_year_surv(data_4, year = year_filter)
 data_5 <- data_filter_year_surv(data_5, year = year_filter)
 
-# A column of countries name is created to identify 
-# data before merge
+# The column "country" is created to identify each row before merge
 
-data_1$country <- "rwa"
+data_1$country <- "rwa" # this is the order of data_x dataframes
 data_2$country <- "ben"
 data_3$country <- "sle"
 data_4$country <- "mli"
