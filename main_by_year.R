@@ -72,7 +72,7 @@ rm(data_1, data_2, data_3, data_4, data_5)
 data_siblings$sex <- data_siblings$sex %>% as.factor()
 data_siblings$country <- data_siblings$country %>% as.factor()
 
-
+# cortar donde la persona no ha muerto para que el maximo sea el año a filtrar
 data_siblings <- data_siblings %>% mutate(death_time = case_when(
   survival_status == 0 ~ date_to_cmc(year = year_filter, month = 12) - birth_cmc,
   TRUE ~ death_time
