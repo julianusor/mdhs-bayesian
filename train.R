@@ -24,21 +24,23 @@ library(cowplot)
 # For terms of computation only the first 2000 siblings 
 # were used, this can be changed.
 
-# 5 dataframes are loaded inside "full_data.RData" so 
-
+# 7 dataframes are loaded inside "full_data.RData" so 
+{
 load("data/countries_data.RData")
-
+}
 # is used instead of ...
-# data_zambia <- read_dhs_surv("data/zambia_2018.dta")
-# data_gambia <- read_dhs_surv("data/gambia_2019-20.dta")
-# data_rwanda <- read_dhs_surv("data/rwanda-2019-20.dta")
-# data_benin <- read_dhs_surv("data/benin-2017-18.dta")
-# data_sierra_leone <- read_dhs_surv("data/sierra-leone-2019.dta")
-# data_mali <- read_dhs_surv("data/mali-2018.dta")
-# data_liberia <- read_dhs_surv("data/liberia-2019-20.dta")
+{
+data_zambia <- read_dhs_surv("data/zambia_2018.dta")
+data_gambia <- read_dhs_surv("data/gambia_2019-20.dta")
+data_rwanda <- read_dhs_surv("data/rwanda-2019-20.dta")
+data_benin <- read_dhs_surv("data/benin-2017-18.dta")
+data_sierra_leone <- read_dhs_surv("data/sierra-leone-2019.dta")
+data_mali <- read_dhs_surv("data/mali-2018.dta")
+data_liberia <- read_dhs_surv("data/liberia-2019-20.dta")
+}
 
 set.seed(1000)
-n_sample <- 2500
+n_sample <- 3000
 {
 data_zambia <- data_zambia[sample(1:(nrow(data_zambia)), n_sample), ]
 data_gambia <- data_gambia[sample(1:(nrow(data_gambia)), n_sample), ]
@@ -90,15 +92,15 @@ data_siblings$country <- data_siblings$country %>% as.factor()
 # a value close to 0 means that knot is not useful 
 # (the survival function is almost flat at that point)
 
-#knotlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
-#knotlist <- as.vector(knotlist)
+knotlist <- quantile(data_siblings$death_time, seq(0.05, 0.95, length.out = 4), na.rm = TRUE)
+knotlist <- as.vector(knotlist)
 
 mod_spline <-
   stan_surv(
     formula = Surv(death_time, survival_status) ~ sex + country,
     data = data_siblings,
     basehaz = "ms" ,
-    basehaz_ops = list(degree = 3, knots = 4),
+    basehaz_ops = list(degree = 3, knots = knotlist),
     iter = 2000
   )
 
